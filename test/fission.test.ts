@@ -1,4 +1,5 @@
-import Fission, { FissionUser } from '../src/fission'
+import Fission, { FissionUser, CID, Content as IPFSContent } from '../src/fission'
+import { Object as JSONObject } from 'json-typescript'
 
 const baseURL = process.env.INTERPLANETARY_FISSION_URL
 const username = process.env.INTERPLANETARY_FISSION_USERNAME || ''
@@ -11,81 +12,182 @@ const randomString = () => {
 }
 
 describe('Fission', () => {
+  let fission: Fission
+  let fissionUser: FissionUser
+
+  beforeAll(async () => {
+    fission = new Fission(baseURL)
+    fissionUser = fission.login(username, password)
+  })
+
+  it('returns an instance of fission on login', () => {
+    expect(fissionUser).toBeInstanceOf(FissionUser)
+  })
+
+  describe('content retrieval', () => {
+    let str: string
+    let cid: CID
+    let ipfsContent: IPFSContent
+
+    beforeAll(async () => {
+      str = randomString()
+      cid = await fissionUser.add(str)
+      ipfsContent = await fission.content(cid)
+    })
+
+    it('is the same content as the original', async () => {
+      expect(ipfsContent).toEqual(str)
+    })
+
+    it('gives properly formatted urls for IPFS content', () => {
+      const url = fission.url(cid)
+      expect(url).toEqual(`${baseURL}/ipfs/${cid}`)
+    })
+
+    it('defaults baseURL to https://hostless.dev', () => {
+      const url = new Fission().url(cid)
+      expect(url).toEqual(`https://hostless.dev/ipfs/${cid}`)
+    })
+  })
+})
+
+describe('FissionUser', () => {
   let fission: FissionUser
 
-  beforeEach(() => {
+  beforeAll(() => {
     fission = new Fission(baseURL).login(username, password)
   })
 
-  it('should return an instance of fission on login', () => {
-    expect(fission).toBeInstanceOf(Fission)
+  describe('adds strings to IPFS', () => {
+    let str: string
+    let cid: CID
+    let cidList: CID[]
+
+    beforeAll(async () => {
+      str = randomString()
+      cid = await fission.add(str)
+      cidList = await fission.list()
+    })
+
+    it('uploads strings to IPFS', () => {
+      expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
+    })
+
+    it('pins strings to IPFS', async () => {
+      await fission.pin(cid)
+    })
+
+    describe('string retrieval', () => {
+      let ipfsContent: IPFSContent
+
+      beforeAll(async () => {
+        ipfsContent = await fission.content(cid)
+      })
+
+      it('is a string', () => {
+        expect(typeof ipfsContent).toBe('string')
+      })
+
+      it('is the same string as the original', () => {
+        expect(ipfsContent).toEqual(str)
+      })
+    })
+
+    it('removes strings from IPFS', async () => {
+      await fission.remove(cid)
+      const cidListAfterDelete = await fission.list()
+      expect(cidListAfterDelete.indexOf(cid)).toEqual(-1)
+    })
   })
 
-  it('should be able to add and retrieve strings from ipfs', async () => {
-    const str = randomString()
-    const cid = await fission.add(str)
-    const cidList = await fission.list()
-    expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
-    const ipfsContent = await fission.content(cid)
-    expect(typeof ipfsContent).toBe('string')
-    expect(ipfsContent).toEqual(str)
+  describe('adds JSON objects to IPFS', () => {
+    let obj: JSONObject
+    let cid: CID
+    let cidList: CID[]
+
+    beforeAll(async () => {
+      obj = {
+        [randomString()]: randomString()
+      }
+      cid = await fission.add(obj)
+      cidList = await fission.list()
+    })
+
+    it('uploads JSON to IPFS', () => {
+      expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
+    })
+
+    it('pins JSON to IPFS', async () => {
+      await fission.pin(cid)
+    })
+
+    describe('JSON retrieval', () => {
+      let ipfsContent: IPFSContent
+
+      beforeAll(async () => {
+        ipfsContent = await fission.content(cid)
+      })
+
+      it('is an object', () => {
+        expect(typeof ipfsContent).toBe('object')
+      })
+
+      it('is the same object as the original', () => {
+        expect(ipfsContent).toEqual(obj)
+      })
+    })
+
+    it('removes JSON from IPFS', async () => {
+      await fission.remove(cid)
+      const cidListAfterDelete = await fission.list()
+      expect(cidListAfterDelete.indexOf(cid)).toEqual(-1)
+    })
   })
 
-  it('should be able to add and retrieve JSON objects from ipfs', async () => {
-    const obj = {
-      [randomString()]: randomString()
-    }
-    const cid = await fission.add(obj)
-    const cidList = await fission.list()
-    expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
-    const ipfsContent = await fission.content(cid)
-    expect(typeof ipfsContent).toBe('object')
-    expect(ipfsContent).toEqual(obj)
-  })
-
-  it('should be able to add and retrieve files from ipfs', async () => {
+  describe('adds files to IPFS', () => {
     const fs = require('fs')
     const path = require('path')
-    const testFile = path.join(__dirname, 'test_img.png')
-    const stream = fs.createReadStream(testFile)
-    const cid = await fission.add(stream)
-    const cidList = await fission.list()
-    expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
-    const ipfsContent = await fission.content(cid)
-    const fileContent = fs.readFileSync(testFile).toString()
-    expect(typeof ipfsContent).toBe('string')
-    expect(ipfsContent).toEqual(fileContent)
-  })
+    const filename = 'test_img.png'
+    const filepath = path.join(__dirname, filename)
+    let cid: CID
+    let cidList: CID[]
 
-  it('should be able to retrieve content when unauthorized', async () => {
-    const str = randomString()
-    const cid = await fission.add(str)
-    const fissionUnauth = new Fission(baseURL)
-    const ipfsContent = await fissionUnauth.content(cid)
-    expect(typeof ipfsContent).toBe('string')
-    expect(ipfsContent).toEqual(str)
-  })
+    beforeAll(async () => {
+      const stream = fs.createReadStream(filepath)
+      cid = await fission.add(stream, filename)
+      cidList = await fission.list()
+    })
 
-  it('should be able to pin content', async () => {
-    const str = randomString()
-    const cid = await fission.add(str)
-    await fission.pin(cid)
-  })
+    it('uploads files to IPFS', () => {
+      expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
+    })
 
-  it('should be able to remove content from ipfs', async () => {
-    const str = randomString()
-    const cid = await fission.add(str)
-    const cidList = await fission.list()
-    expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
-    await fission.remove(cid)
-    const cidListAfterDelete = await fission.list()
-    expect(cidListAfterDelete.indexOf(cid)).toEqual(-1)
-  })
+    it('pins files to IPFS', async () => {
+      await fission.pin(cid)
+    })
 
-  it('should give properly formatted urls for ipfs content', async () => {
-    const str = randomString()
-    const cid = await fission.add(str)
-    const url = fission.url(cid)
-    expect(url).toEqual(`${baseURL}/ipfs/${cid}`)
+    describe('file retrieval', () => {
+      let ipfsContent: IPFSContent
+      let fileContent: string
+
+      beforeAll(async () => {
+        ipfsContent = await fission.content(cid)
+        fileContent = fs.readFileSync(filepath).toString()
+      })
+
+      it('is a string', () => {
+        expect(typeof ipfsContent).toBe('string')
+      })
+
+      it('is the same object as the original', () => {
+        expect(ipfsContent).toEqual(fileContent)
+      })
+    })
+
+    it('removes files from IPFS', async () => {
+      await fission.remove(cid)
+      const cidListAfterDelete = await fission.list()
+      expect(cidListAfterDelete.indexOf(cid)).toEqual(-1)
+    })
   })
 })

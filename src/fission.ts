@@ -36,9 +36,6 @@ export class FissionUser extends Fission {
   }
 
   constructor(baseURL: string, username: string, password: string) {
-    if (!username || !password) {
-      throw new Error('Must supply both a username and password on login')
-    }
     super(baseURL)
     this.auth = { username, password }
     return this
