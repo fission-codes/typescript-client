@@ -1,4 +1,4 @@
-import Fission from '../src/fission'
+import Fission, { FissionUser } from '../src/fission'
 
 const baseURL = process.env.INTERPLANETARY_FISSION_URL
 const username = process.env.INTERPLANETARY_FISSION_USERNAME || ''
@@ -11,7 +11,7 @@ const randomString = () => {
 }
 
 describe('Fission', () => {
-  let fission: Fission
+  let fission: FissionUser
 
   beforeEach(() => {
     fission = new Fission(baseURL).login(username, password)
