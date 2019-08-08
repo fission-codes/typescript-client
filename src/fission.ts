@@ -15,7 +15,7 @@ export default class Fission {
   }
 
   login(username: string, password: string): FissionUser {
-    return new FissionUser(this.baseURL, username, password)
+    return new FissionUser(username, password, this.baseURL)
   }
 
   async content(cid: CID): Promise<Content> {
@@ -35,7 +35,7 @@ export class FissionUser extends Fission {
     password: string
   }
 
-  constructor(baseURL: string, username: string, password: string) {
+  constructor(username: string, password: string, baseURL?: string) {
     super(baseURL)
     this.auth = { username, password }
     return this
