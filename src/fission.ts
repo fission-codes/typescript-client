@@ -1,6 +1,11 @@
 import axios from 'axios'
+import { Value as JSONValue } from 'json-typescript'
 
 const BASE_URL_DEFAULT = "https://hostless.dev"
+
+export type Content = JSONValue
+export type Upload = JSONValue | File
+export type CID = string
 
 export default class Fission {
   baseURL: string
@@ -18,42 +23,42 @@ export default class Fission {
     return this
   }
 
-  async list(): Promise<string[]> {
+  async list(): Promise<CID[]> {
     if(!this.auth){
       throw new Error("Must be logged in to list available CIDs")
     }
-    const { data } = await axios.get<string[]>(`${this.baseURL}/ipfs/cids`, { auth: this.auth })
+    const { data } = await axios.get<CID[]>(`${this.baseURL}/ipfs/cids`, { auth: this.auth })
     return data
   }
 
-  async content(cid: string): Promise<string | object> {
+  async content(cid: CID): Promise<Content> {
     const headers = { 'content-type': 'application/octet-stream' }
-    const { data } = await axios.get<string | object>(`${this.baseURL}/ipfs/${cid}`, { headers })
+    const { data } = await axios.get<Content>(`${this.baseURL}/ipfs/${cid}`, { headers })
     return data
   }
 
-  url(cid: string): string {
+  url(cid: CID): string {
     return `${this.baseURL}/ipfs/${cid}`
   }
 
-  async add(content: string | Object | File, name?: string): Promise<string> {
+  async add(content: Content, name?: string): Promise<CID> {
     if(!this.auth){
       throw new Error("Must be logged in to add content to IPFS")
     }
     const headers = { 'content-type': 'application/octet-stream' }
     const nameStr = name ? `?name=${name}` : ''
-    const { data } = await axios.post<string>(`${this.baseURL}/ipfs${nameStr}`, content, { headers, auth: this.auth })
+    const { data } = await axios.post<CID>(`${this.baseURL}/ipfs${nameStr}`, content, { headers, auth: this.auth })
     return data
   }
 
-  async remove(cid: string) {
+  async remove(cid: CID) {
     if(!this.auth){
       throw new Error("Must be logged in to remove content from IPFs")
     }
     await axios.delete(`${this.baseURL}/ipfs/${cid}`, { auth: this.auth })
   }
 
-  async pin(cid: string) {
+  async pin(cid: CID) {
     if(!this.auth){
       throw new Error("Must be logged in to pin content")
     }
