@@ -46,7 +46,9 @@
     }
   },
   "jest": {
-    "setupFiles": ["dotenv/config"],
+    "setupFiles": [
+      "dotenv/config"
+    ],
     "transform": {
       ".(ts|tsx)": "ts-jest"
     },
