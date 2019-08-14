@@ -41,7 +41,7 @@ export class FissionUser extends Fission {
     return this
   }
 
-  async list(): Promise<CID[]> {
+  async cids(): Promise<CID[]> {
     const { data } = await axios.get<CID[]>(`${this.baseURL}/ipfs/cids`, { auth: this.auth })
     return data
   }
