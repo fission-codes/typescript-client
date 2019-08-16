@@ -7,7 +7,7 @@
 [![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes)
 [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq)
 
-A TypeScript client library for access accessing the [FISSION Web API]((https://github.com/fission-suite/web-api/).
+A TypeScript client library for access accessing the [FISSION Web API](https://github.com/fission-suite/web-api/).
 
 ## Testing
 - Run `npm i`
