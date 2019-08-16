@@ -3,8 +3,8 @@
 # FISSION IPFS Web API
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/fission-suite/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/fission-suite/typescript-client.svg?branch=master)](https://travis-ci.org/fission-suite/typescript-client)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2a271d744d14ad487a24/maintainability)](https://codeclimate.com/github/fission-suite/typescript-client/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/2a271d744d14ad487a24/test_coverage)](https://codeclimate.com/github/fission-suite/typescript-client/test_coverage)
 [![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes)
 [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq)
 
