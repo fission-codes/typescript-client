@@ -1,21 +1,27 @@
 import Fission, { FissionUser, CID, Content as IPFSContent } from '../src/fission'
 import { Object as JSONObject } from 'json-typescript'
+import axios from 'axios'
+const sinon = require('sinon')
 
-const baseURL = process.env.INTERPLANETARY_FISSION_URL
-const username = process.env.INTERPLANETARY_FISSION_USERNAME || ''
-const password = process.env.INTERPLANETARY_FISSION_PASSWORD || ''
+// test variables
+const baseURL = 'https://hostless.dev'
+const username = 'test_username'
+const password = 'test_password'
 
-const randomString = () => {
-  return Math.random()
-    .toString(36)
-    .substring(7)
-}
+const strContent = 'string content'
+const jsonContent = {
+  string: 'testing',
+  array: [1, -1, 1000, 0]
+} as JSONObject
+const testCID = 'QmYFkqxQM63pcM5RzAQ4Fs9gei8YgHWu6DPWutfUs8Dvze'
 
 describe('Fission', () => {
   let fission: Fission
   let fissionUser: FissionUser
 
-  beforeAll(async () => {
+  beforeEach(() => sinon.restore())
+
+  beforeAll(() => {
     fission = new Fission(baseURL)
     fissionUser = fission.login(username, password)
   })
@@ -24,29 +30,44 @@ describe('Fission', () => {
     expect(fissionUser).toBeInstanceOf(FissionUser)
   })
 
-  describe('content retrieval', () => {
-    let str: string
-    let cid: CID
+  it('gives properly formatted urls for IPFS content', () => {
+    const url = fission.url(testCID)
+    expect(url).toEqual(`${baseURL}/ipfs/${testCID}`)
+  })
+
+  it('defaults baseURL to https://hostless.dev', () => {
+    const url = new Fission().url(testCID)
+    expect(url).toEqual(`https://hostless.dev/ipfs/${testCID}`)
+  })
+
+  describe('retrieves IPFS content', () => {
     let ipfsContent: IPFSContent
+    let fake: sinon.SinonSpy
 
     beforeAll(async () => {
-      str = randomString()
-      cid = await fissionUser.add(str)
-      ipfsContent = await fission.content(cid)
+      fake = sinon.fake.returns(new Promise(r => r({ data: strContent })))
+      sinon.replace(axios, 'get', fake)
+      ipfsContent = await fission.content(testCID)
     })
 
-    it('is the same content as the original', async () => {
-      expect(ipfsContent).toEqual(str)
+    it('returns IPFS content', () => {
+      expect(ipfsContent).toEqual(strContent)
     })
 
-    it('gives properly formatted urls for IPFS content', () => {
-      const url = fission.url(cid)
-      expect(url).toEqual(`${baseURL}/ipfs/${cid}`)
+    it('sends one GET request', () => {
+      expect(fake.callCount).toEqual(1)
     })
 
-    it('defaults baseURL to https://hostless.dev', () => {
-      const url = new Fission().url(cid)
-      expect(url).toEqual(`https://hostless.dev/ipfs/${cid}`)
+    it('sends request with a properly formatted url', () => {
+      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/${testCID}`)
+    })
+
+    it('requests an octet-stream', () => {
+      expect(fake.args[0][1]).toEqual({
+        headers: {
+          'content-type': 'application/octet-stream'
+        }
+      })
     })
   })
 })
@@ -54,140 +75,152 @@ describe('Fission', () => {
 describe('FissionUser', () => {
   let fission: FissionUser
 
+  beforeEach(() => sinon.restore())
+
   beforeAll(() => {
-    fission = new Fission(baseURL).login(username, password)
+    fission = new FissionUser(username, password, baseURL)
   })
 
-  describe('adds strings to IPFS', () => {
-    let str: string
-    let cid: CID
-    let cidList: CID[]
+  describe('returns cids associated with user', () => {
+    let fake: sinon.SinonSpy
+    let cids: CID[]
+    let testCIDs = [
+      testCID,
+      'QmYp9d8BC2HhDCUVH7JEUZAd6Hbxrc5wBRfUs8TqazJJP9',
+      'QmYwXpFw1QGAWxEnQWFwLuVpdbupaBcEz2DTTRRRsCt9WR'
+    ]
 
     beforeAll(async () => {
-      str = randomString()
-      cid = await fission.add(str)
-      cidList = await fission.list()
+      fake = sinon.fake.returns(new Promise(r => r({ data: testCIDs })))
+      sinon.replace(axios, 'get', fake)
+      cids = await fission.cids()
     })
 
-    it('uploads strings to IPFS', () => {
-      expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
+    it('returns list of CIDs', () => {
+      expect(cids).toEqual(testCIDs)
     })
 
-    it('pins strings to IPFS', async () => {
-      await fission.pin(cid)
+    it('sends one GET request', () => {
+      expect(fake.callCount).toEqual(1)
     })
 
-    describe('string retrieval', () => {
-      let ipfsContent: IPFSContent
-
-      beforeAll(async () => {
-        ipfsContent = await fission.content(cid)
-      })
-
-      it('is a string', () => {
-        expect(typeof ipfsContent).toBe('string')
-      })
-
-      it('is the same string as the original', () => {
-        expect(ipfsContent).toEqual(str)
-      })
-    })
-
-    it('removes strings from IPFS', async () => {
-      await fission.remove(cid)
-      const cidListAfterDelete = await fission.list()
-      expect(cidListAfterDelete.indexOf(cid)).toEqual(-1)
+    it('sends request with a properly formatted url', () => {
+      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/cids`)
     })
   })
 
-  describe('adds JSON objects to IPFS', () => {
-    let obj: JSONObject
+  describe('adds strings to ipfs', () => {
     let cid: CID
-    let cidList: CID[]
+    let fake: sinon.SinonSpy
 
     beforeAll(async () => {
-      obj = {
-        [randomString()]: randomString()
-      }
-      cid = await fission.add(obj)
-      cidList = await fission.list()
+      fake = sinon.fake.returns(new Promise(r => r({ data: testCID })))
+      sinon.replace(axios, 'post', fake)
+      cid = await fission.add(strContent)
     })
 
-    it('uploads JSON to IPFS', () => {
-      expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
+    it('returns valid CID', () => {
+      expect(cid).toEqual(testCID)
     })
 
-    it('pins JSON to IPFS', async () => {
-      await fission.pin(cid)
+    it('sends one POST request', () => {
+      expect(fake.callCount).toEqual(1)
     })
 
-    describe('JSON retrieval', () => {
-      let ipfsContent: IPFSContent
+    it('sends request with a properly formatted url', () => {
+      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs`)
+    })
 
-      beforeAll(async () => {
-        ipfsContent = await fission.content(cid)
+    it('sends request with correct content to add', () => {
+      expect(fake.args[0][1]).toEqual(strContent)
+    })
+
+    it('requests an octet-stream with basic auth', () => {
+      expect(fake.args[0][2]).toEqual({
+        headers: {
+          'content-type': 'application/octet-stream'
+        },
+        auth: {
+          username,
+          password
+        }
       })
-
-      it('is an object', () => {
-        expect(typeof ipfsContent).toBe('object')
-      })
-
-      it('is the same object as the original', () => {
-        expect(ipfsContent).toEqual(obj)
-      })
-    })
-
-    it('removes JSON from IPFS', async () => {
-      await fission.remove(cid)
-      const cidListAfterDelete = await fission.list()
-      expect(cidListAfterDelete.indexOf(cid)).toEqual(-1)
     })
   })
 
-  describe('adds files to IPFS', () => {
-    const fs = require('fs')
-    const path = require('path')
-    const filename = 'test_img.png'
-    const filepath = path.join(__dirname, filename)
+  describe('adds json (with name) to ipfs', () => {
     let cid: CID
-    let cidList: CID[]
+    let fake: sinon.SinonSpy
+    let name = 'json object'
 
     beforeAll(async () => {
-      const stream = fs.createReadStream(filepath)
-      cid = await fission.add(stream, filename)
-      cidList = await fission.list()
+      fake = sinon.fake.returns(new Promise(r => r({ data: testCID })))
+      sinon.replace(axios, 'post', fake)
+      cid = await fission.add(jsonContent, name)
     })
 
-    it('uploads files to IPFS', () => {
-      expect(cidList.indexOf(cid)).toBeGreaterThan(-1)
+    it('returns valid CID', () => {
+      expect(cid).toEqual(testCID)
     })
 
-    it('pins files to IPFS', async () => {
-      await fission.pin(cid)
+    it('sends one POST request', () => {
+      expect(fake.callCount).toEqual(1)
     })
 
-    describe('file retrieval', () => {
-      let ipfsContent: IPFSContent
-      let fileContent: string
+    it('sends request with a properly formatted url', () => {
+      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs?name=json object`)
+    })
 
-      beforeAll(async () => {
-        ipfsContent = await fission.content(cid)
-        fileContent = fs.readFileSync(filepath).toString()
+    it('sends request with correct content to add', () => {
+      expect(fake.args[0][1]).toEqual(jsonContent)
+    })
+
+    it('requests an octet-stream with basic auth', () => {
+      expect(fake.args[0][2]).toEqual({
+        headers: {
+          'content-type': 'application/octet-stream'
+        },
+        auth: {
+          username,
+          password
+        }
       })
+    })
+  })
 
-      it('is a string', () => {
-        expect(typeof ipfsContent).toBe('string')
-      })
+  describe('pins content to ipfs', () => {
+    let fake: sinon.SinonSpy
 
-      it('is the same object as the original', () => {
-        expect(ipfsContent).toEqual(fileContent)
-      })
+    beforeAll(async () => {
+      fake = sinon.fake.returns(new Promise(r => r({ data: {} })))
+      sinon.replace(axios, 'put', fake)
+      await fission.pin(testCID)
     })
 
-    it('removes files from IPFS', async () => {
-      await fission.remove(cid)
-      const cidListAfterDelete = await fission.list()
-      expect(cidListAfterDelete.indexOf(cid)).toEqual(-1)
+    it('sends one PUT request', () => {
+      expect(fake.callCount).toEqual(1)
+    })
+
+    it('sends request with a properly formatted url', () => {
+      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/${testCID}`)
+    })
+  })
+
+  describe('removes content from ipfs', () => {
+    let fake: sinon.SinonSpy
+
+    beforeAll(async () => {
+      fake = sinon.fake.returns(new Promise(r => r({ data: {} })))
+      sinon.replace(axios, 'delete', fake)
+      await fission.remove(testCID)
+    })
+
+    it('sends one DELETE request', () => {
+      expect(fake.callCount).toEqual(1)
+    })
+
+    it('sends request with a properly formatted url', () => {
+      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/${testCID}`)
     })
   })
 })
