@@ -3,10 +3,11 @@
 # FISSION IPFS Web API
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/fission-suite/blob/master/LICENSE)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2a271d744d14ad487a24/maintainability)](https://codeclimate.com/github/fission-suite/typescript-client/maintainability)
 [![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes)
 [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq)
 
-A typescript client library for access accessing the fission IPFS API.
+A TypeScript client library for access accessing the [FISSION Web API]((https://github.com/fission-suite/web-api/).
 
 ## Testing
 - Run `npm i`
