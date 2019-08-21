@@ -1,11 +1,11 @@
 {
-  "name": "fission-typescript",
-  "version": "0.0.0",
+  "name": "@fission-suite/client",
+  "version": "0.0.1",
   "description": "",
   "keywords": [],
-  "main": "dist/fission-typescript.umd.js",
-  "module": "dist/fission-typescript.es5.js",
-  "typings": "dist/types/fission-typescript.d.ts",
+  "main": "dist/client.umd.js",
+  "module": "dist/client.es5.js",
+  "typings": "dist/types/client.d.ts",
   "files": [
     "dist"
   ],
