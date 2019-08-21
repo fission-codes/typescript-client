@@ -1,7 +1,7 @@
 {
   "name": "@fission-suite/client",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "Fission Web API TypeScript Client ",
   "keywords": [],
   "main": "dist/client.umd.js",
   "module": "dist/client.es5.js",
