@@ -1,4 +1,4 @@
-import Fission, { FissionUser, CID, Content as IPFSContent } from '../src/fission'
+import Fission, { FissionUser, CID, Content as IPFSContent } from '../src/client'
 import { Object as JSONObject } from 'json-typescript'
 import axios from 'axios'
 const sinon = require('sinon')
