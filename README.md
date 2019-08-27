@@ -10,13 +10,119 @@
 
 A TypeScript client library for access accessing the [FISSION Web API](https://github.com/fission-suite/web-api/).
 
+## Installing
+```
+$ npm install --save @fission-suit/client
+```
+
+## API
+
+### Unauthenticated
+
+`content`
+
+Returns content at given CID.
+
+Params:
+- cid: CID (string) **required**
+- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+
+Example:
+```
+import { content } from '@fission-suite/client'
+const helloWorld = await content("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
+```
+
+`url`
+
+Returns a formatted url for a given CID.
+
+Params:
+- cid: CID (string) **required**
+- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+
+Example:
+```
+import { url } from '@fission-suite/client'
+const formattedURL = url("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
+```
+
+### Authenticated
+*These methods require a username/password from the fission webserver. These can be provisioned by the [Heroku addon](https://elements.heroku.com/addons/interplanetary-fission).*
+
+`add`
+
+Adds content to IPFS and returns the CID of that content.
+
+Params:
+- content: Content (json, string, file-stream) **required**
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- name: string *optional name for your file, defaults to `undefined`*
+
+Example:
+```
+import { add } from '@fission-suite/client'
+const auth = { username: "username", password: "password" }
+const content = {
+  key1: 123,
+  key2: 456
+}
+const cid = await add(content, auth)
+```
+
+`remove`
+
+Unpins content from Fission server and disassociates CID with user account.
+
+Params:
+- cid: CID (string) **required**
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+
+Example:
+```
+import { remove } from '@fission-suite/client'
+const auth = { username: "username", password: "password" }
+await remove("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u", auth)
+```
+
+`pin`
+
+Pins content to Fission server.
+
+Params:
+- cid: CID (string) **required**
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+
+Example:
+```
+import { pin } from '@fission-suite/client'
+const auth = { username: "username", password: "password" }
+await pin("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u", auth)
+```
+
+### Fission objects
+
+For repeated calls, instantiate a fission object:
+```
+import Fission, { FissionUser } from '@fission-suite/client'
+
+const fission = new Fission("https://someurl.com")
+const helloWorld = await fission.content("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
+
+const fissionUser = fission.login("username", "password")
+// Alternately:
+// const fissionUser = new FissionUser("username", "password", "https://someurl.com")
+
+const cid =  await fissionUser.add("Check this out!")
+await fissionUser.pin(cid)
+
+const cids = fissionUser.cids()
+```
+
 ## Testing
 - Run `npm i`
-- Create a `.env` file in the root of the repo with format:
-```
-INTERPLANETARY_FISSION_URL = CHANGE_ME
-INTERPLANETARY_FISSION_USERNAME = CHANGE_ME
-INTERPLANETARY_FISSION_PASSWORD = CHANGE_ME
-```
 - Run tests with: `npm run test`
 - Or achieve developer zen with `npm run test:watch`
