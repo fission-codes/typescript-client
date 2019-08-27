@@ -11,25 +11,25 @@ export type Auth = {
   password: string
 }
 
-export const content = async (baseURL: string, cid: CID): Promise<Content> => {
+export const content = async (cid: CID, baseURL = BASE_URL_DEFAULT): Promise<Content> => {
   const headers = { 'content-type': 'application/octet-stream' }
   const { data } = await axios.get<Content>(`${baseURL}/ipfs/${cid}`, { headers })
   return data
 }
 
-export const url = (baseURL: string, cid: CID): string => {
+export const url = (cid: CID, baseURL = BASE_URL_DEFAULT): string => {
   return `${baseURL}/ipfs/${cid}`
 }
 
-export const cids = async (baseURL: string, auth: Auth): Promise<CID[]> => {
+export const cids = async (auth: Auth, baseURL = BASE_URL_DEFAULT): Promise<CID[]> => {
   const { data } = await axios.get<CID[]>(`${baseURL}/ipfs/cids`, { auth })
   return data
 }
 
 export const add = async (
-  baseURL: string,
-  auth: Auth,
   content: Content,
+  auth: Auth,
+  baseURL = BASE_URL_DEFAULT,
   name?: string
 ): Promise<CID> => {
   const headers = { 'content-type': 'application/octet-stream' }
@@ -41,11 +41,11 @@ export const add = async (
   return data
 }
 
-export const remove = async (baseURL: string, auth: Auth, cid: CID) => {
+export const remove = async (cid: CID, auth: Auth, baseURL = BASE_URL_DEFAULT) => {
   await axios.delete(`${baseURL}/ipfs/${cid}`, { auth })
 }
 
-export const pin = async (baseURL: string, auth: Auth, cid: CID) => {
+export const pin = async (cid: CID, auth: Auth, baseURL = BASE_URL_DEFAULT) => {
   await axios.put(`${baseURL}/ipfs/${cid}`, {}, { auth })
 }
 
@@ -61,11 +61,11 @@ export default class Fission {
   }
 
   async content(cid: CID): Promise<Content> {
-    return content(this.baseURL, cid)
+    return content(cid, this.baseURL)
   }
 
   url(cid: CID): string {
-    return url(this.baseURL, cid)
+    return url(cid, this.baseURL)
   }
 }
 
@@ -79,18 +79,18 @@ export class FissionUser extends Fission {
   }
 
   async cids(): Promise<CID[]> {
-    return cids(this.baseURL, this.auth)
+    return cids(this.auth, this.baseURL)
   }
 
   async add(content: Content, name?: string): Promise<CID> {
-    return add(this.baseURL, this.auth, content, name)
+    return add(content, this.auth, this.baseURL, name)
   }
 
   async remove(cid: CID) {
-    return remove(this.baseURL, this.auth, cid)
+    return remove(cid, this.auth, this.baseURL)
   }
 
   async pin(cid: CID) {
-    return pin(this.baseURL, this.auth, cid)
+    return pin(cid, this.auth, this.baseURL)
   }
 }
