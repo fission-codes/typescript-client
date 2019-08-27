@@ -6,6 +6,48 @@ const BASE_URL_DEFAULT = 'https://hostless.dev'
 export type Content = JSONValue
 export type Upload = JSONValue | File
 export type CID = string
+export type Auth = {
+  username: string
+  password: string
+}
+
+export const content = async (baseURL: string, cid: CID): Promise<Content> => {
+  const headers = { 'content-type': 'application/octet-stream' }
+  const { data } = await axios.get<Content>(`${baseURL}/ipfs/${cid}`, { headers })
+  return data
+}
+
+export const url = (baseURL: string, cid: CID): string => {
+  return `${baseURL}/ipfs/${cid}`
+}
+
+export const cids = async (baseURL: string, auth: Auth): Promise<CID[]> => {
+  const { data } = await axios.get<CID[]>(`${baseURL}/ipfs/cids`, { auth })
+  return data
+}
+
+export const add = async (
+  baseURL: string,
+  auth: Auth,
+  content: Content,
+  name?: string
+): Promise<CID> => {
+  const headers = { 'content-type': 'application/octet-stream' }
+  const nameStr = name ? `?name=${name}` : ''
+  const { data } = await axios.post<CID>(`${baseURL}/ipfs${nameStr}`, content, {
+    headers,
+    auth
+  })
+  return data
+}
+
+export const remove = async (baseURL: string, auth: Auth, cid: CID) => {
+  await axios.delete(`${baseURL}/ipfs/${cid}`, { auth })
+}
+
+export const pin = async (baseURL: string, auth: Auth, cid: CID) => {
+  await axios.put(`${baseURL}/ipfs/${cid}`, {}, { auth })
+}
 
 export default class Fission {
   baseURL: string
@@ -19,21 +61,16 @@ export default class Fission {
   }
 
   async content(cid: CID): Promise<Content> {
-    const headers = { 'content-type': 'application/octet-stream' }
-    const { data } = await axios.get<Content>(`${this.baseURL}/ipfs/${cid}`, { headers })
-    return data
+    return content(this.baseURL, cid)
   }
 
   url(cid: CID): string {
-    return `${this.baseURL}/ipfs/${cid}`
+    return url(this.baseURL, cid)
   }
 }
 
 export class FissionUser extends Fission {
-  auth: {
-    username: string
-    password: string
-  }
+  auth: Auth
 
   constructor(username: string, password: string, baseURL?: string) {
     super(baseURL)
@@ -42,25 +79,18 @@ export class FissionUser extends Fission {
   }
 
   async cids(): Promise<CID[]> {
-    const { data } = await axios.get<CID[]>(`${this.baseURL}/ipfs/cids`, { auth: this.auth })
-    return data
+    return cids(this.baseURL, this.auth)
   }
 
   async add(content: Content, name?: string): Promise<CID> {
-    const headers = { 'content-type': 'application/octet-stream' }
-    const nameStr = name ? `?name=${name}` : ''
-    const { data } = await axios.post<CID>(`${this.baseURL}/ipfs${nameStr}`, content, {
-      headers,
-      auth: this.auth
-    })
-    return data
+    return add(this.baseURL, this.auth, content, name)
   }
 
   async remove(cid: CID) {
-    await axios.delete(`${this.baseURL}/ipfs/${cid}`, { auth: this.auth })
+    return remove(this.baseURL, this.auth, cid)
   }
 
   async pin(cid: CID) {
-    await axios.put(`${this.baseURL}/ipfs/${cid}`, {}, { auth: this.auth })
+    return pin(this.baseURL, this.auth, cid)
   }
 }
