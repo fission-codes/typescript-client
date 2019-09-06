@@ -1,6 +1,6 @@
 {
   "name": "@fission-suite/client",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Fission Web API TypeScript Client ",
   "keywords": [],
   "main": "dist/client.cjs.js",

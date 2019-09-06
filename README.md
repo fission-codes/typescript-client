@@ -2,6 +2,7 @@
 
 # FISSION IPFS Web API
 
+[![NPM](https://img.shields.io/npm/v/@fission-suite/client)](https://www.npmjs.com/package/@fission-suite/client)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/fission-suite/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/fission-suite/typescript-client.svg?branch=master)](https://travis-ci.org/fission-suite/typescript-client)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2a271d744d14ad487a24/maintainability)](https://codeclimate.com/github/fission-suite/typescript-client/maintainability)
