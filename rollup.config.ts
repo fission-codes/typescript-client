@@ -58,6 +58,7 @@ const configUMD = {
   input,
   sourcemap: true,
   output: {
+    name,
     file: replaceMinJsExtension(pkg.browser),
     format: 'umd'
   },
