@@ -33,7 +33,7 @@ Do not edit the class manually.
 
 • **accessToken**? : *string | function*
 
-Defined in src/configuration.ts:19
+*Defined in [src/configuration.ts:19](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L19)*
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 • **apiKey**? : *string | function*
 
-Defined in src/configuration.ts:16
+*Defined in [src/configuration.ts:16](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L16)*
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 • **baseOptions**? : *any*
 
-Defined in src/configuration.ts:21
+*Defined in [src/configuration.ts:21](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L21)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 • **basePath**? : *string*
 
-Defined in src/configuration.ts:20
+*Defined in [src/configuration.ts:20](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L20)*
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 • **password**? : *string*
 
-Defined in src/configuration.ts:18
+*Defined in [src/configuration.ts:18](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L18)*
 
 ___
 
@@ -73,4 +73,4 @@ ___
 
 • **username**? : *string*
 
-Defined in src/configuration.ts:17
+*Defined in [src/configuration.ts:17](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L17)*

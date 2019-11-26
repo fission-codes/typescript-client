@@ -22,7 +22,7 @@
 
 • **getDomainName**: *string*
 
-Defined in src/api.ts:33
+*Defined in [src/api.ts:33](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L33)*
 
 **`type`** {string}
 

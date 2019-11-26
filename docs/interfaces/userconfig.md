@@ -26,7 +26,7 @@ The information that a user needs to know to access this service. Typically sent
 
 • **INTERPLANETARY_FISSION_PASSWORD**? : *string*
 
-Defined in src/api.ts:172
+*Defined in [src/api.ts:172](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L172)*
 
 User secret (used for authentication)
 
@@ -40,7 +40,7 @@ ___
 
 • **INTERPLANETARY_FISSION_URL**? : *string*
 
-Defined in src/api.ts:160
+*Defined in [src/api.ts:160](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L160)*
 
 **`type`** {string}
 
@@ -52,7 +52,7 @@ ___
 
 • **INTERPLANETARY_FISSION_USERNAME**? : *string*
 
-Defined in src/api.ts:166
+*Defined in [src/api.ts:166](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L166)*
 
 **`type`** {string}
 

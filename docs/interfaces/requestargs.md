@@ -23,7 +23,7 @@
 
 • **options**: *any*
 
-Defined in src/base.ts:40
+*Defined in [src/base.ts:40](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L40)*
 
 ___
 
@@ -31,4 +31,4 @@ ___
 
 • **url**: *string*
 
-Defined in src/base.ts:39
+*Defined in [src/base.ts:39](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L39)*

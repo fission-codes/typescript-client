@@ -34,7 +34,7 @@
 
 \+ **new RequiredError**(`field`: string, `msg?`: string): *[RequiredError](requirederror.md)*
 
-Defined in src/base.ts:66
+*Defined in [src/base.ts:66](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L66)*
 
 **Parameters:**
 
@@ -51,7 +51,7 @@ Name | Type |
 
 • **field**: *string*
 
-Defined in src/base.ts:67
+*Defined in [src/base.ts:67](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L67)*
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 *Overrides void*
 
-Defined in src/base.ts:66
+*Defined in [src/base.ts:66](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L66)*
 
 ___
 

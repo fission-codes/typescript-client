@@ -27,7 +27,7 @@
 
 \+ **new Configuration**(`param`: [ConfigurationParameters](../interfaces/configurationparameters.md)): *[Configuration](configuration.md)*
 
-Defined in src/configuration.ts:65
+*Defined in [src/configuration.ts:65](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L65)*
 
 **Parameters:**
 
@@ -43,7 +43,7 @@ Name | Type | Default |
 
 • **accessToken**? : *string | function*
 
-Defined in src/configuration.ts:51
+*Defined in [src/configuration.ts:51](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L51)*
 
 parameter for oauth2 security
 
@@ -59,7 +59,7 @@ ___
 
 • **apiKey**? : *string | function*
 
-Defined in src/configuration.ts:30
+*Defined in [src/configuration.ts:30](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L30)*
 
 parameter for apiKey security
 
@@ -73,7 +73,7 @@ ___
 
 • **baseOptions**? : *any*
 
-Defined in src/configuration.ts:65
+*Defined in [src/configuration.ts:65](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L65)*
 
 base options for axios calls
 
@@ -87,7 +87,7 @@ ___
 
 • **basePath**? : *string*
 
-Defined in src/configuration.ts:58
+*Defined in [src/configuration.ts:58](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L58)*
 
 override base path
 
@@ -101,7 +101,7 @@ ___
 
 • **password**? : *string*
 
-Defined in src/configuration.ts:44
+*Defined in [src/configuration.ts:44](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L44)*
 
 parameter for basic security
 
@@ -115,7 +115,7 @@ ___
 
 • **username**? : *string*
 
-Defined in src/configuration.ts:37
+*Defined in [src/configuration.ts:37](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/configuration.ts#L37)*
 
 parameter for basic security
 

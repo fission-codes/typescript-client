@@ -27,7 +27,7 @@ Provisioned user login information
 
 • **config**: *[UserConfig](userconfig.md)*
 
-Defined in src/api.ts:191
+*Defined in [src/api.ts:191](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L191)*
 
 **`type`** {UserConfig}
 
@@ -39,7 +39,7 @@ ___
 
 • **id**: *number*
 
-Defined in src/api.ts:185
+*Defined in [src/api.ts:185](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L185)*
 
 **`type`** {number}
 
@@ -51,7 +51,7 @@ ___
 
 • **message**? : *string*
 
-Defined in src/api.ts:197
+*Defined in [src/api.ts:197](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L197)*
 
 **`type`** {string}
 
@@ -63,7 +63,7 @@ ___
 
 • **peers**? : *Array‹string›*
 
-Defined in src/api.ts:203
+*Defined in [src/api.ts:203](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L203)*
 
 **`type`** {Array<string>}
 

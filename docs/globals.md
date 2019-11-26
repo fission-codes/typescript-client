@@ -64,7 +64,7 @@
 
 • **BASE_PATH**: *string* =  "https://runfission.com".replace(/\/+$/, "")
 
-Defined in src/base.ts:20
+*Defined in [src/base.ts:20](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L20)*
 
 ## Functions
 
@@ -72,7 +72,7 @@ Defined in src/base.ts:20
 
 ▸ **DNSApiAxiosParamCreator**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:210
+*Defined in [src/api.ts:210](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L210)*
 
 DNSApi - axios parameter creator
 
@@ -92,7 +92,7 @@ ___
 
 ▸ **DNSApiFactory**(`configuration?`: [Configuration](classes/configuration.md), `basePath?`: string, `axios?`: AxiosInstance): *object*
 
-Defined in src/api.ts:275
+*Defined in [src/api.ts:275](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L275)*
 
 DNSApi - factory interface
 
@@ -114,7 +114,7 @@ ___
 
 ▸ **DNSApiFp**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:253
+*Defined in [src/api.ts:253](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L253)*
 
 DNSApi - functional programming interface
 
@@ -136,7 +136,7 @@ ___
 
 ▸ **HerokuApiAxiosParamCreator**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:314
+*Defined in [src/api.ts:314](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L314)*
 
 HerokuApi - axios parameter creator
 
@@ -158,7 +158,7 @@ ___
 
 ▸ **HerokuApiFactory**(`configuration?`: [Configuration](classes/configuration.md), `basePath?`: string, `axios?`: AxiosInstance): *object*
 
-Defined in src/api.ts:429
+*Defined in [src/api.ts:429](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L429)*
 
 HerokuApi - factory interface
 
@@ -182,7 +182,7 @@ ___
 
 ▸ **HerokuApiFp**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:394
+*Defined in [src/api.ts:394](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L394)*
 
 HerokuApi - functional programming interface
 
@@ -208,7 +208,7 @@ ___
 
 ▸ **IPFSApiAxiosParamCreator**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:488
+*Defined in [src/api.ts:488](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L488)*
 
 IPFSApi - axios parameter creator
 
@@ -242,7 +242,7 @@ ___
 
 ▸ **IPFSApiFactory**(`configuration?`: [Configuration](classes/configuration.md), `basePath?`: string, `axios?`: AxiosInstance): *object*
 
-Defined in src/api.ts:869
+*Defined in [src/api.ts:869](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L869)*
 
 IPFSApi - factory interface
 
@@ -278,7 +278,7 @@ ___
 
 ▸ **IPFSApiFp**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:758
+*Defined in [src/api.ts:758](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L758)*
 
 IPFSApi - functional programming interface
 
@@ -328,7 +328,7 @@ ___
 
 ▸ **PingApiAxiosParamCreator**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:1044
+*Defined in [src/api.ts:1044](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1044)*
 
 PingApi - axios parameter creator
 
@@ -348,7 +348,7 @@ ___
 
 ▸ **PingApiFactory**(`configuration?`: [Configuration](classes/configuration.md), `basePath?`: string, `axios?`: AxiosInstance): *object*
 
-Defined in src/api.ts:1102
+*Defined in [src/api.ts:1102](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1102)*
 
 PingApi - factory interface
 
@@ -370,7 +370,7 @@ ___
 
 ▸ **PingApiFp**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:1081
+*Defined in [src/api.ts:1081](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1081)*
 
 PingApi - functional programming interface
 
@@ -392,7 +392,7 @@ ___
 
 ▸ **UsersApiAxiosParamCreator**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:1139
+*Defined in [src/api.ts:1139](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1139)*
 
 UsersApi - axios parameter creator
 
@@ -416,7 +416,7 @@ ___
 
 ▸ **UsersApiFactory**(`configuration?`: [Configuration](classes/configuration.md), `basePath?`: string, `axios?`: AxiosInstance): *object*
 
-Defined in src/api.ts:1297
+*Defined in [src/api.ts:1297](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1297)*
 
 UsersApi - factory interface
 
@@ -442,7 +442,7 @@ ___
 
 ▸ **UsersApiFp**(`configuration?`: [Configuration](classes/configuration.md)): *object*
 
-Defined in src/api.ts:1250
+*Defined in [src/api.ts:1250](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1250)*
 
 UsersApi - functional programming interface
 
@@ -472,7 +472,7 @@ Name | Type |
 
 ### ▪ **COLLECTION_FORMATS**: *object*
 
-Defined in src/base.ts:26
+*Defined in [src/base.ts:26](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L26)*
 
 **`export`** 
 
@@ -480,22 +480,22 @@ Defined in src/base.ts:26
 
 • **csv**: *string* = ","
 
-Defined in src/base.ts:27
+*Defined in [src/base.ts:27](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L27)*
 
 ###  pipes
 
 • **pipes**: *string* = "|"
 
-Defined in src/base.ts:30
+*Defined in [src/base.ts:30](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L30)*
 
 ###  ssv
 
 • **ssv**: *string* = " "
 
-Defined in src/base.ts:28
+*Defined in [src/base.ts:28](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L28)*
 
 ###  tsv
 
 • **tsv**: *string* = "	"
 
-Defined in src/base.ts:29
+*Defined in [src/base.ts:29](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L29)*

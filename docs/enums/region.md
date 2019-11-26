@@ -25,7 +25,7 @@
 
 • **ApNortheast1**: = "amazon-web-services::ap-northeast-1"
 
-Defined in src/api.ts:110
+*Defined in [src/api.ts:110](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L110)*
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 • **ApSoutheast1**: = "amazon-web-services::ap-southeast-1"
 
-Defined in src/api.ts:108
+*Defined in [src/api.ts:108](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L108)*
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 • **ApSoutheast2**: = "amazon-web-services::ap-southeast-2"
 
-Defined in src/api.ts:109
+*Defined in [src/api.ts:109](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L109)*
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 • **EuCentral1**: = "amazon-web-services::eu-central-1"
 
-Defined in src/api.ts:106
+*Defined in [src/api.ts:106](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L106)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 • **EuWest1**: = "amazon-web-services::eu-west-1"
 
-Defined in src/api.ts:105
+*Defined in [src/api.ts:105](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L105)*
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 • **UsEast1**: = "amazon-web-services::us-east-1"
 
-Defined in src/api.ts:111
+*Defined in [src/api.ts:111](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L111)*
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 • **UsWest1**: = "amazon-web-services::us-west-1"
 
-Defined in src/api.ts:104
+*Defined in [src/api.ts:104](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L104)*
 
 ___
 
@@ -81,4 +81,4 @@ ___
 
 • **UsWest2**: = "amazon-web-services::us-west-2"
 
-Defined in src/api.ts:107
+*Defined in [src/api.ts:107](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L107)*

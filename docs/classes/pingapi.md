@@ -40,7 +40,7 @@ PingApi - object-oriented interface
 
 *Inherited from [BaseAPI](baseapi.md).[constructor](baseapi.md#constructor)*
 
-Defined in src/base.ts:49
+*Defined in [src/base.ts:49](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L49)*
 
 **Parameters:**
 
@@ -60,7 +60,7 @@ Name | Type | Default |
 
 *Inherited from [BaseAPI](baseapi.md).[axios](baseapi.md#protected-axios)*
 
-Defined in src/base.ts:51
+*Defined in [src/base.ts:51](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L51)*
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 *Inherited from [BaseAPI](baseapi.md).[basePath](baseapi.md#protected-basepath)*
 
-Defined in src/base.ts:51
+*Defined in [src/base.ts:51](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L51)*
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 *Inherited from [BaseAPI](baseapi.md).[configuration](baseapi.md#protected-configuration)*
 
-Defined in src/base.ts:49
+*Defined in [src/base.ts:49](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L49)*
 
 ## Methods
 
@@ -88,7 +88,7 @@ Defined in src/base.ts:49
 
 ▸ **pingGet**(`options?`: any): *AxiosPromise‹string›*
 
-Defined in src/api.ts:1128
+*Defined in [src/api.ts:1128](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1128)*
 
 **`throws`** {RequiredError}
 

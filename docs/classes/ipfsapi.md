@@ -47,7 +47,7 @@ IPFSApi - object-oriented interface
 
 *Inherited from [BaseAPI](baseapi.md).[constructor](baseapi.md#constructor)*
 
-Defined in src/base.ts:49
+*Defined in [src/base.ts:49](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L49)*
 
 **Parameters:**
 
@@ -67,7 +67,7 @@ Name | Type | Default |
 
 *Inherited from [BaseAPI](baseapi.md).[axios](baseapi.md#protected-axios)*
 
-Defined in src/base.ts:51
+*Defined in [src/base.ts:51](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L51)*
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 *Inherited from [BaseAPI](baseapi.md).[basePath](baseapi.md#protected-basepath)*
 
-Defined in src/base.ts:51
+*Defined in [src/base.ts:51](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L51)*
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 *Inherited from [BaseAPI](baseapi.md).[configuration](baseapi.md#protected-configuration)*
 
-Defined in src/base.ts:49
+*Defined in [src/base.ts:49](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/base.ts#L49)*
 
 ## Methods
 
@@ -95,7 +95,7 @@ Defined in src/base.ts:49
 
 ▸ **ipfsCidDelete**(`cid`: string, `options?`: any): *AxiosPromise‹void›*
 
-Defined in src/api.ts:958
+*Defined in [src/api.ts:958](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L958)*
 
 **`throws`** {RequiredError}
 
@@ -116,7 +116,7 @@ ___
 
 ▸ **ipfsCidGet**(`cid`: string, `options?`: any): *AxiosPromise‹string›*
 
-Defined in src/api.ts:969
+*Defined in [src/api.ts:969](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L969)*
 
 **`throws`** {RequiredError}
 
@@ -137,7 +137,7 @@ ___
 
 ▸ **ipfsCidPut**(`cid`: string, `options?`: any): *AxiosPromise‹void›*
 
-Defined in src/api.ts:980
+*Defined in [src/api.ts:980](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L980)*
 
 **`throws`** {RequiredError}
 
@@ -158,7 +158,7 @@ ___
 
 ▸ **ipfsCidsGet**(`options?`: any): *AxiosPromise‹string[]›*
 
-Defined in src/api.ts:990
+*Defined in [src/api.ts:990](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L990)*
 
 **`throws`** {RequiredError}
 
@@ -178,7 +178,7 @@ ___
 
 ▸ **ipfsDagPost**(`body`: string, `options?`: any): *AxiosPromise‹string›*
 
-Defined in src/api.ts:1001
+*Defined in [src/api.ts:1001](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1001)*
 
 **`throws`** {RequiredError}
 
@@ -199,7 +199,7 @@ ___
 
 ▸ **ipfsGet**(`cid?`: string, `options?`: any): *AxiosPromise‹string›*
 
-Defined in src/api.ts:1012
+*Defined in [src/api.ts:1012](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1012)*
 
 **`throws`** {RequiredError}
 
@@ -220,7 +220,7 @@ ___
 
 ▸ **ipfsPeersGet**(`options?`: any): *AxiosPromise‹string[]›*
 
-Defined in src/api.ts:1022
+*Defined in [src/api.ts:1022](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1022)*
 
 **`throws`** {RequiredError}
 
@@ -240,7 +240,7 @@ ___
 
 ▸ **ipfsPost**(`name?`: string, `options?`: any): *AxiosPromise‹string›*
 
-Defined in src/api.ts:1033
+*Defined in [src/api.ts:1033](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L1033)*
 
 **`throws`** {RequiredError}
 

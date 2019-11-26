@@ -24,7 +24,7 @@ Password Reset Request
 
 • **password**? : *string*
 
-Defined in src/api.ts:59
+*Defined in [src/api.ts:59](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L59)*
 
 **`type`** {string}
 

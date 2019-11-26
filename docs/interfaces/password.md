@@ -22,7 +22,7 @@
 
 • **password**: *string*
 
-Defined in src/api.ts:46
+*Defined in [src/api.ts:46](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L46)*
 
 **`type`** {string}
 

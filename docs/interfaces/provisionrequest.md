@@ -28,7 +28,7 @@ Request from Heroku to provision a new user
 
 • **callbackUrl**: *string*
 
-Defined in src/api.ts:72
+*Defined in [src/api.ts:72](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L72)*
 
 **`type`** {string}
 
@@ -40,7 +40,7 @@ ___
 
 • **name**: *string*
 
-Defined in src/api.ts:78
+*Defined in [src/api.ts:78](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L78)*
 
 **`type`** {string}
 
@@ -52,7 +52,7 @@ ___
 
 • **plan**: *[Tier](../enums/tier.md)*
 
-Defined in src/api.ts:84
+*Defined in [src/api.ts:84](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L84)*
 
 **`type`** {Tier}
 
@@ -64,7 +64,7 @@ ___
 
 • **region**: *[Region](../enums/region.md)*
 
-Defined in src/api.ts:90
+*Defined in [src/api.ts:90](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L90)*
 
 **`type`** {Region}
 
@@ -76,7 +76,7 @@ ___
 
 • **uuid**: *string*
 
-Defined in src/api.ts:96
+*Defined in [src/api.ts:96](https://github.com/fission-suite/typescript-client/blob/6b1c329/src/api.ts#L96)*
 
 **`type`** {string}
 
