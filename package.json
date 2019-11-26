@@ -1,0 +1,31 @@
+{
+  "name": "@fission-suite/client",
+  "version": "2.0.0",
+  "description": "Fission Web API TypeScript Client ",
+  "author": "Daniel Holmgren <dtholmgren@gmail.com>",
+  "keywords": [
+    "axios",
+    "typescript",
+    "openapi-client",
+    "openapi-generator",
+    "@fission-suite/client"
+  ],
+  "license": "Apache-2.0",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --outDir dist/",
+    "build:docs": "typedoc --plugin typedoc-plugin-markdown --theme markdown --out docs --mode file src",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "npm": "^6.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.11.5",
+    "typedoc": "^0.15.3",
+    "typedoc-plugin-markdown": "^2.2.9",
+    "typescript": "^3.6.4"
+  }
+}
