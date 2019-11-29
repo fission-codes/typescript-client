@@ -13,7 +13,7 @@ A TypeScript client library for access accessing the [FISSION Web API](https://g
 
 ## Installing
 ```
-$ npm install --save @fission-suit/client
+$ npm install --save @fission-suite/client
 ```
 
 ## API
