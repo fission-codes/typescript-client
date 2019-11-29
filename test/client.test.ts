@@ -15,7 +15,7 @@ import axios from 'axios'
 const sinon = require('sinon')
 
 // test variables
-const baseURL = 'https://hostless.dev'
+const baseURL = 'https://runfission.com'
 const username = 'test_username'
 const password = 'test_password'
 const auth = { username, password } as Auth
@@ -49,7 +49,7 @@ describe('Fission', () => {
 
   it('defaults baseURL when formatting url', () => {
     const contentURL = url(testCID)
-    expect(contentURL).toEqual(`https://hostless.dev/ipfs/${testCID}`)
+    expect(contentURL).toEqual(`https://runfission.com/ipfs/${testCID}`)
   })
 
   describe('retrieves IPFS content', () => {
@@ -83,8 +83,8 @@ describe('Fission', () => {
       })
     })
 
-    it('defaults baseURL to https://hostless.dev', () => {
-      expect(fake.args[1][0]).toEqual(`https://hostless.dev/ipfs/${testCID}`)
+    it('defaults baseURL to https://runfission.com', () => {
+      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${testCID}`)
     })
   })
 })
@@ -126,8 +126,8 @@ describe('FissionUser', () => {
       expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/cids`)
     })
 
-    it('defaults baseURL to https://hostless.dev', () => {
-      expect(fake.args[1][0]).toEqual(`https://hostless.dev/ipfs/cids`)
+    it('defaults baseURL to https://runfission.com', () => {
+      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/cids`)
     })
   })
 
@@ -170,8 +170,8 @@ describe('FissionUser', () => {
       })
     })
 
-    it('defaults baseURL to https://hostless.dev', () => {
-      expect(fake.args[1][0]).toEqual(`https://hostless.dev/ipfs`)
+    it('defaults baseURL to https://runfission.com', () => {
+      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs`)
     })
   })
 
@@ -215,8 +215,8 @@ describe('FissionUser', () => {
       })
     })
 
-    it('defaults baseURL to https://hostless.dev', () => {
-      expect(fake.args[1][0]).toEqual(`https://hostless.dev/ipfs`)
+    it('defaults baseURL to https://runfission.com', () => {
+      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs`)
     })
   })
 
@@ -238,8 +238,8 @@ describe('FissionUser', () => {
       expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/${testCID}`)
     })
 
-    it('defaults baseURL to https://hostless.dev', () => {
-      expect(fake.args[1][0]).toEqual(`https://hostless.dev/ipfs/${testCID}`)
+    it('defaults baseURL to https://runfission.com', () => {
+      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${testCID}`)
     })
   })
 
@@ -261,8 +261,8 @@ describe('FissionUser', () => {
       expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/${testCID}`)
     })
 
-    it('defaults baseURL to https://hostless.dev', () => {
-      expect(fake.args[1][0]).toEqual(`https://hostless.dev/ipfs/${testCID}`)
+    it('defaults baseURL to https://runfission.com', () => {
+      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${testCID}`)
     })
   })
 })

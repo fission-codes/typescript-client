@@ -26,7 +26,7 @@ Returns content at given CID.
 
 Params:
 - cid: CID (string) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 
 Example:
 ```
@@ -40,7 +40,7 @@ Returns a formatted url for a given CID.
 
 Params:
 - cid: CID (string) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 
 Example:
 ```
@@ -58,7 +58,7 @@ Adds content to IPFS and returns the CID of that content.
 Params:
 - content: Content (json, string, file-stream) **required**
 - auth: Auth ({username: string, password: string}) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 - name: string *optional name for your file, defaults to `undefined`*
 
 Example:
@@ -79,7 +79,7 @@ Unpins content from Fission server and disassociates CID with user account.
 Params:
 - cid: CID (string) **required**
 - auth: Auth ({username: string, password: string}) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 
 Example:
 ```
@@ -95,7 +95,7 @@ Pins content to Fission server.
 Params:
 - cid: CID (string) **required**
 - auth: Auth ({username: string, password: string}) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 
 Example:
 ```

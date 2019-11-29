@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Value as JSONValue } from 'json-typescript'
 
-const BASE_URL_DEFAULT = 'https://hostless.dev'
+const BASE_URL_DEFAULT = 'https://runfission.com'
 
 export type Content = JSONValue
 export type Upload = JSONValue | File
