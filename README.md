@@ -49,7 +49,7 @@ const formattedURL = url("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
 ```
 
 ### Authenticated
-*These methods require a username/password from the fission webserver. These can be provisioned by the [Heroku addon](https://elements.heroku.com/addons/interplanetary-fission).*
+*These methods require a username/password from the fission webserver. These can be provisioned through our [Fission CLI](https://github.com/fission-suite/cli).*
 
 `add`
 
