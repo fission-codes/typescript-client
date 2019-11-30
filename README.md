@@ -104,6 +104,17 @@ const auth = { username: "username", password: "password" }
 await pin("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u", auth)
 ```
 
+## To add
+- [ ] User Register: POST /user
+- [ ] User Verify: Get /user/verify
+- [ ] User Verify: Get /user/reset_password
+- [ ] CIDs All: Get /ipfs/cids
+- [ ] Peerss All: Get /ipfs/peers
+- [ ] DNS Put: DNS /dns
+
+
+
+
 ### Fission objects
 
 For repeated calls, instantiate a fission object:

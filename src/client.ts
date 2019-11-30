@@ -3,13 +3,22 @@ import { Value as JSONValue } from 'json-typescript'
 
 const BASE_URL_DEFAULT = 'https://runfission.com'
 
+/* TYPES */
+
 export type Content = JSONValue
 export type Upload = JSONValue | File
 export type CID = string
+export type Peer = string
+export type ResetPassword = {
+  password: string
+}
 export type Auth = {
   username: string
   password: string
+  email?: string
 }
+
+/* IPFS */
 
 export const content = async (cid: CID, baseURL = BASE_URL_DEFAULT): Promise<Content> => {
   const headers = { 'content-type': 'application/octet-stream' }
@@ -49,6 +58,40 @@ export const pin = async (cid: CID, auth: Auth, baseURL = BASE_URL_DEFAULT) => {
   await axios.put(`${baseURL}/ipfs/${cid}`, {}, { auth })
 }
 
+/* New User */
+
+export const register = async (content: Auth, baseURL = BASE_URL_DEFAULT): Promise<Content> => {
+  const { data } = await axios.post<Content>(`${baseURL}/user`, content)
+  return data
+}
+
+export const resetPassword = async (
+  content: ResetPassword,
+  auth: Auth,
+  baseURL = BASE_URL_DEFAULT
+): Promise<ResetPassword> => {
+  const { data } = await axios.put<ResetPassword>(`${baseURL}/user/reset_password`, content, {
+    auth
+  })
+  return data
+}
+
+export const verify = async (auth: Auth, baseURL = BASE_URL_DEFAULT): Promise<Boolean> => {
+  const { data } = await axios.get<Boolean>(`${baseURL}/user/verify`, { auth })
+  return data
+}
+
+/* New IPFS */
+
+export const peers = async (baseURL = BASE_URL_DEFAULT): Promise<Peer[]> => {
+  const { data } = await axios.get<Peer[]>(`${baseURL}/ipfs/peers`)
+  return data
+}
+
+export const updateDNS = async (cid: CID, auth: Auth, baseURL = BASE_URL_DEFAULT) => {
+  await axios.put(`${baseURL}/dns/${cid}`, { auth })
+}
+
 export default class Fission {
   baseURL: string
 
@@ -58,6 +101,10 @@ export default class Fission {
 
   login(username: string, password: string): FissionUser {
     return new FissionUser(username, password, this.baseURL)
+  }
+
+  register(username: string, password: string, email?: string): Promise<Content> {
+    return register({ username, password, email }, this.baseURL)
   }
 
   async content(cid: CID): Promise<Content> {
