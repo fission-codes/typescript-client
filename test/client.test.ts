@@ -1,6 +1,6 @@
 import Fission, { FissionUser, url } from '../src/client'
-
 import { Auth } from '../src/types'
+import { BASE_URL_DEFAULT } from '../src/constants'
 
 import { Object as JSONObject } from 'json-typescript'
 import axios from 'axios'
@@ -10,7 +10,7 @@ const sinon = require('sinon')
 
 /* CONSTANTS */
 
-const BASE_URL = 'https://runfission.com'
+const TEST_BASE_URL = 'https://runfissiontest.com'
 
 const TEST_AUTH = { username: 'test_username', password: 'test_password' } as Auth
 const TEST_CID = 'QmYFkqxQM63pcM5RzAQ4Fs9gei8YgHWu6DPWutfUs8Dvze'
@@ -83,7 +83,7 @@ describe('Fission', () => {
   beforeEach(() => sinon.restore())
 
   beforeAll(() => {
-    fission = new Fission(BASE_URL)
+    fission = new Fission(TEST_BASE_URL)
     fissionUser = fission.login(TEST_AUTH.username, TEST_AUTH.password)
   })
 
@@ -93,12 +93,17 @@ describe('Fission', () => {
 
   it('gives properly formatted urls for IPFS content', () => {
     const url = fission.url(TEST_CID)
-    expect(url).toEqual(`${BASE_URL}/ipfs/${TEST_CID}`)
+    expect(url).toEqual(`${TEST_BASE_URL}/ipfs/${TEST_CID}`)
   })
 
-  it('defaults BASE_URL when formatting url', () => {
+  it('defaults BASE_URL_DEFAULT when formatting url', () => {
     const contentURL = url(TEST_CID)
-    expect(contentURL).toEqual(`https://runfission.com/ipfs/${TEST_CID}`)
+    expect(contentURL).toEqual(`${BASE_URL_DEFAULT}/ipfs/${TEST_CID}`)
+  })
+
+  it('defaults BASE_URL_DEFAULT when not given a url', () => {
+    const fissionDefault = new Fission()
+    expect(fissionDefault.baseURL).toEqual(BASE_URL_DEFAULT)
   })
 
   describeRequest({
@@ -107,7 +112,7 @@ describe('Fission', () => {
     responseData: { data: undefined },
     requestFn: () => fission.register(TEST_AUTH.username, TEST_AUTH.password, 'abs@123.org'),
     expectedReturn: undefined,
-    expectedUrl: `${BASE_URL}/user`,
+    expectedUrl: `${TEST_BASE_URL}/user`,
     expectedArguments: [{ ...TEST_AUTH, email: 'abs@123.org' }]
   })
 
@@ -117,7 +122,7 @@ describe('Fission', () => {
     responseData: { data: TEST_PEERS },
     requestFn: () => fission.peers(),
     expectedReturn: TEST_PEERS,
-    expectedUrl: `${BASE_URL}/ipfs/peers`,
+    expectedUrl: `${TEST_BASE_URL}/ipfs/peers`,
     expectedArguments: []
   })
 
@@ -127,7 +132,7 @@ describe('Fission', () => {
     responseData: { data: STRING_CONTENT },
     requestFn: () => fission.content(TEST_CID),
     expectedReturn: STRING_CONTENT,
-    expectedUrl: `${BASE_URL}/ipfs/${TEST_CID}`,
+    expectedUrl: `${TEST_BASE_URL}/ipfs/${TEST_CID}`,
     expectedArguments: [
       {
         headers: {
@@ -142,7 +147,12 @@ describe('FissionUser', () => {
   let fission: FissionUser
   beforeEach(() => sinon.restore())
   beforeAll(() => {
-    fission = new FissionUser(TEST_AUTH.username, TEST_AUTH.password, BASE_URL)
+    fission = new FissionUser(TEST_AUTH.username, TEST_AUTH.password, TEST_BASE_URL)
+  })
+
+  it('defaults BASE_URL_DEFAULT when not given a url', () => {
+    const fissionDefault = new FissionUser(TEST_AUTH.username, TEST_AUTH.password)
+    expect(fissionDefault.baseURL).toEqual(BASE_URL_DEFAULT)
   })
 
   describeRequest({
@@ -151,8 +161,18 @@ describe('FissionUser', () => {
     responseData: { data: true },
     requestFn: () => fission.verify(),
     expectedReturn: true,
-    expectedUrl: `${BASE_URL}/user/verify`,
+    expectedUrl: `${TEST_BASE_URL}/user/verify`,
     expectedArguments: [{ auth: TEST_AUTH }]
+  })
+
+  describeRequest({
+    desc: 'Reset Passowrd',
+    method: 'put',
+    responseData: { data: { password: 'newPassword' } },
+    requestFn: () => fission.resetPassword({ password: 'newPassword' }),
+    expectedReturn: { password: 'newPassword' },
+    expectedUrl: `${TEST_BASE_URL}/user/reset_password`,
+    expectedArguments: [{ password: 'newPassword' }, { auth: TEST_AUTH }]
   })
 
   describeRequest({
@@ -161,7 +181,7 @@ describe('FissionUser', () => {
     responseData: { data: TEST_CIDs },
     requestFn: () => fission.cids(),
     expectedReturn: TEST_CIDs,
-    expectedUrl: `${BASE_URL}/ipfs/cids`,
+    expectedUrl: `${TEST_BASE_URL}/ipfs/cids`,
     expectedArguments: [{ auth: TEST_AUTH }]
   })
 
@@ -171,7 +191,7 @@ describe('FissionUser', () => {
     responseData: { data: TEST_CIDs },
     requestFn: () => fission.add(STRING_CONTENT),
     expectedReturn: TEST_CIDs,
-    expectedUrl: `${BASE_URL}/ipfs`,
+    expectedUrl: `${TEST_BASE_URL}/ipfs`,
     expectedArguments: [
       STRING_CONTENT,
       {
@@ -189,7 +209,7 @@ describe('FissionUser', () => {
     responseData: { data: TEST_CID },
     requestFn: () => fission.add(JSON_CONTENT, JSON_NAME),
     expectedReturn: TEST_CID,
-    expectedUrl: `${BASE_URL}/ipfs?name=${JSON_NAME}`,
+    expectedUrl: `${TEST_BASE_URL}/ipfs?name=${JSON_NAME}`,
     expectedArguments: [
       JSON_CONTENT,
       {
@@ -207,7 +227,7 @@ describe('FissionUser', () => {
     responseData: { data: {} },
     requestFn: () => fission.pin(TEST_CID),
     expectedReturn: undefined,
-    expectedUrl: `${BASE_URL}/ipfs/${TEST_CID}`,
+    expectedUrl: `${TEST_BASE_URL}/ipfs/${TEST_CID}`,
     expectedArguments: [{}, { auth: TEST_AUTH }]
   })
 
@@ -217,7 +237,7 @@ describe('FissionUser', () => {
     responseData: { data: {} },
     requestFn: () => fission.remove(TEST_CID),
     expectedReturn: undefined,
-    expectedUrl: `${BASE_URL}/ipfs/${TEST_CID}`,
+    expectedUrl: `${TEST_BASE_URL}/ipfs/${TEST_CID}`,
     expectedArguments: [{ auth: TEST_AUTH }]
   })
 
@@ -227,7 +247,7 @@ describe('FissionUser', () => {
     responseData: { data: { getDomainName: 'appsubdomain.runfission.com' } },
     requestFn: () => fission.updateDNS(TEST_CID),
     expectedReturn: 'appsubdomain.runfission.com',
-    expectedUrl: `${BASE_URL}/dns/${TEST_CID}`,
+    expectedUrl: `${TEST_BASE_URL}/dns/${TEST_CID}`,
     expectedArguments: [{ auth: TEST_AUTH }]
   })
 })
