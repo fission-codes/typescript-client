@@ -11,16 +11,9 @@ import {
   resetPassword,
   verify
 } from './api'
+import { getGatewayURL } from './util'
 
 import { Content, CID, Auth, ResetPassword } from './types'
-
-/* UTIL */
-
-export const url = (cid: CID, baseURL = BASE_URL_DEFAULT): string => {
-  return `${baseURL}/ipfs/${cid}`
-}
-
-/* Clients */
 
 export default class Fission {
   baseURL: string
@@ -45,8 +38,8 @@ export default class Fission {
     return peers(this.baseURL)
   }
 
-  url(cid: CID): string {
-    return url(cid, this.baseURL)
+  getGatewayURL(cid: CID): string {
+    return getGatewayURL(cid, this.baseURL)
   }
 }
 

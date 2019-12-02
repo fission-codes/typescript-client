@@ -1,9 +1,10 @@
 import { Object as JSONObject } from 'json-typescript'
 
-import Fission, { FissionUser, url } from '../src/client'
+import Fission, { FissionUser } from '../src/client'
+import { getGatewayURL } from '../src/util'
 import { Auth } from '../src/types'
 import { BASE_URL_DEFAULT } from '../src/constants'
-import { describeRequest } from './helpers'
+import { describeRequest } from './util'
 
 // NOTE: We must import sinon in this manner: https://github.com/sinonjs/sinon/issues/1711
 const sinon = require('sinon')
@@ -49,12 +50,12 @@ describe('Fission', () => {
   })
 
   it('gives properly formatted urls for IPFS content', () => {
-    const url = fission.url(TEST_CID)
+    const url = fission.getGatewayURL(TEST_CID)
     expect(url).toEqual(`${TEST_BASE_URL}/ipfs/${TEST_CID}`)
   })
 
   it('defaults BASE_URL_DEFAULT when formatting url', () => {
-    const contentURL = url(TEST_CID)
+    const contentURL = getGatewayURL(TEST_CID)
     expect(contentURL).toEqual(`${BASE_URL_DEFAULT}/ipfs/${TEST_CID}`)
   })
 
