@@ -1,15 +1,6 @@
-import Fission, {
-  FissionUser,
-  content,
-  url,
-  cids,
-  add,
-  remove,
-  pin,
-  CID,
-  Auth,
-  Content as IPFSContent
-} from '../src/client'
+import Fission, { FissionUser, url } from '../src/client'
+
+import { Auth } from '../src/types'
 
 import { Object as JSONObject } from 'json-typescript'
 import axios from 'axios'
@@ -82,6 +73,8 @@ const describeRequest = (opts: RequestTest) => {
     })
   })
 }
+
+/* Tests */
 
 describe('Fission', () => {
   let fission: Fission
