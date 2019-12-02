@@ -88,8 +88,13 @@ export const peers = async (baseURL = BASE_URL_DEFAULT): Promise<Peer[]> => {
   return data
 }
 
-export const updateDNS = async (cid: CID, auth: Auth, baseURL = BASE_URL_DEFAULT) => {
-  await axios.put(`${baseURL}/dns/${cid}`, { auth })
+export const updateDNS = async (
+  cid: CID,
+  auth: Auth,
+  baseURL = BASE_URL_DEFAULT
+): Promise<Content> => {
+  const { data } = await axios.put(`${baseURL}/dns/${cid}`, { auth })
+  return data
 }
 
 export default class Fission {
@@ -109,6 +114,10 @@ export default class Fission {
 
   async content(cid: CID): Promise<Content> {
     return content(cid, this.baseURL)
+  }
+
+  async peers(): Promise<Content> {
+    return peers(this.baseURL)
   }
 
   url(cid: CID): string {
@@ -139,5 +148,17 @@ export class FissionUser extends Fission {
 
   async pin(cid: CID) {
     return pin(cid, this.auth, this.baseURL)
+  }
+
+  async updateDNS(cid: CID): Promise<Content> {
+    return updateDNS(cid, this.auth, this.baseURL)
+  }
+
+  async resetPassword(newPassword: ResetPassword): Promise<ResetPassword> {
+    return resetPassword(newPassword, this.auth, this.baseURL)
+  }
+
+  async verify(): Promise<Boolean> {
+    return verify(this.auth, this.baseURL)
   }
 }
