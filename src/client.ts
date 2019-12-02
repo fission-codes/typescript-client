@@ -93,8 +93,10 @@ export const updateDNS = async (
   auth: Auth,
   baseURL = BASE_URL_DEFAULT
 ): Promise<Content> => {
-  const { data } = await axios.put(`${baseURL}/dns/${cid}`, { auth })
-  return data
+  const {
+    data: { getDomainName }
+  } = await axios.put(`${baseURL}/dns/${cid}`, { auth })
+  return getDomainName
 }
 
 export default class Fission {
