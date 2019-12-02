@@ -10,22 +10,68 @@ import Fission, {
   Auth,
   Content as IPFSContent
 } from '../src/client'
+
 import { Object as JSONObject } from 'json-typescript'
 import axios from 'axios'
+
+// NOTE: We must import sinon in this manner: https://github.com/sinonjs/sinon/issues/1711
 const sinon = require('sinon')
 
-// test variables
-const baseURL = 'https://runfission.com'
-const username = 'test_username'
-const password = 'test_password'
-const auth = { username, password } as Auth
+/* CONSTANTS */
 
-const strContent = 'string content'
-const jsonContent = {
+const BASE_URL = 'https://runfission.com'
+const TEST_AUTH = { username: 'test_username', password: 'test_password' } as Auth
+const TEST_CID = 'QmYFkqxQM63pcM5RzAQ4Fs9gei8YgHWu6DPWutfUs8Dvze'
+const STRING_CONTENT = 'string content'
+const JSON_CONTENT = {
   string: 'testing',
   array: [1, -1, 1000, 0]
 } as JSONObject
-const testCID = 'QmYFkqxQM63pcM5RzAQ4Fs9gei8YgHWu6DPWutfUs8Dvze'
+
+/* Helpers */
+
+type RequestTest = {
+  desc: string
+  responseData: object
+  requestFn: () => Promise<IPFSContent>
+  expectedReturn: any
+  expectedUrl: string
+  expectedContentType: string
+  method: string
+}
+
+const testRequestProperties = (opts: RequestTest) => {
+  return describe(opts.desc, () => {
+    let ipfsContent: IPFSContent
+    let fake: sinon.SinonSpy
+
+    beforeAll(async () => {
+      fake = sinon.fake.returns(new Promise(r => r(opts.responseData)))
+      sinon.replace(axios, opts.method, fake)
+      ipfsContent = await opts.requestFn()
+    })
+
+    it('returns IPFS content', () => {
+      expect(ipfsContent).toEqual(opts.expectedReturn)
+    })
+
+    it('sends one GET request per call', () => {
+      expect(fake.callCount).toEqual(1)
+    })
+
+    it('sends request with a properly formatted url', () => {
+      expect(fake.args[0][0]).toEqual(opts.expectedUrl)
+    })
+
+    it('requests an octet-stream', () => {
+      expect(fake.args[0][1]).toEqual({
+        headers: {
+          'content-type': opts.expectedContentType
+        }
+      })
+    })
+  })
+}
 
 describe('Fission', () => {
   let fission: Fission
@@ -34,8 +80,8 @@ describe('Fission', () => {
   beforeEach(() => sinon.restore())
 
   beforeAll(() => {
-    fission = new Fission(baseURL)
-    fissionUser = fission.login(username, password)
+    fission = new Fission(BASE_URL)
+    fissionUser = fission.login(TEST_AUTH.username, TEST_AUTH.password)
   })
 
   it('returns an instance of fission on login', () => {
@@ -43,51 +89,30 @@ describe('Fission', () => {
   })
 
   it('gives properly formatted urls for IPFS content', () => {
-    const url = fission.url(testCID)
-    expect(url).toEqual(`${baseURL}/ipfs/${testCID}`)
+    const url = fission.url(TEST_CID)
+    expect(url).toEqual(`${BASE_URL}/ipfs/${TEST_CID}`)
   })
 
-  it('defaults baseURL when formatting url', () => {
-    const contentURL = url(testCID)
-    expect(contentURL).toEqual(`https://runfission.com/ipfs/${testCID}`)
+  it('defaults BASE_URL when formatting url', () => {
+    const contentURL = url(TEST_CID)
+    expect(contentURL).toEqual(`https://runfission.com/ipfs/${TEST_CID}`)
   })
 
-  describe('retrieves IPFS content', () => {
-    let ipfsContent: IPFSContent
-    let fake: sinon.SinonSpy
-
-    beforeAll(async () => {
-      fake = sinon.fake.returns(new Promise(r => r({ data: strContent })))
-      sinon.replace(axios, 'get', fake)
-      ipfsContent = await fission.content(testCID)
-      await content(testCID)
-    })
-
-    it('returns IPFS content', () => {
-      expect(ipfsContent).toEqual(strContent)
-    })
-
-    it('sends one GET request per call', () => {
-      expect(fake.callCount).toEqual(2)
-    })
-
-    it('sends request with a properly formatted url', () => {
-      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/${testCID}`)
-    })
-
-    it('requests an octet-stream', () => {
-      expect(fake.args[0][1]).toEqual({
-        headers: {
-          'content-type': 'application/octet-stream'
-        }
-      })
-    })
-
-    it('defaults baseURL to https://runfission.com', () => {
-      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${testCID}`)
-    })
+  testRequestProperties({
+    desc: 'retrieves IPFS content',
+    method: 'get',
+    responseData: { data: STRING_CONTENT },
+    requestFn: () => fission.content(TEST_CID),
+    expectedReturn: STRING_CONTENT,
+    expectedUrl: `${BASE_URL}/ipfs/${TEST_CID}`,
+    expectedContentType: 'application/octet-stream'
   })
 })
+
+// TODO add base_url test
+// it('defaults BASE_URL to https://runfission.com', () => {
+//   expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${TEST_CID}`)
+// })
 
 describe('FissionUser', () => {
   let fission: FissionUser
@@ -95,27 +120,27 @@ describe('FissionUser', () => {
   beforeEach(() => sinon.restore())
 
   beforeAll(() => {
-    fission = new FissionUser(username, password, baseURL)
+    fission = new FissionUser(TEST_AUTH.username, TEST_AUTH.password, BASE_URL)
   })
 
   describe('returns cids associated with user', () => {
     let fake: sinon.SinonSpy
     let cidList: CID[]
-    let testCIDs = [
-      testCID,
+    let TEST_CIDs = [
+      TEST_CID,
       'QmYp9d8BC2HhDCUVH7JEUZAd6Hbxrc5wBRfUs8TqazJJP9',
       'QmYwXpFw1QGAWxEnQWFwLuVpdbupaBcEz2DTTRRRsCt9WR'
     ]
 
     beforeAll(async () => {
-      fake = sinon.fake.returns(new Promise(r => r({ data: testCIDs })))
+      fake = sinon.fake.returns(new Promise(r => r({ data: TEST_CIDs })))
       sinon.replace(axios, 'get', fake)
       cidList = await fission.cids()
-      await cids(auth)
+      await cids(TEST_AUTH)
     })
 
     it('returns list of CIDs', () => {
-      expect(cidList).toEqual(testCIDs)
+      expect(cidList).toEqual(TEST_CIDs)
     })
 
     it('sends one GET request per call', () => {
@@ -123,10 +148,10 @@ describe('FissionUser', () => {
     })
 
     it('sends request with a properly formatted url', () => {
-      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/cids`)
+      expect(fake.args[0][0]).toEqual(`${BASE_URL}/ipfs/cids`)
     })
 
-    it('defaults baseURL to https://runfission.com', () => {
+    it('defaults BASE_URL to https://runfission.com', () => {
       expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/cids`)
     })
   })
@@ -136,14 +161,14 @@ describe('FissionUser', () => {
     let fake: sinon.SinonSpy
 
     beforeAll(async () => {
-      fake = sinon.fake.returns(new Promise(r => r({ data: testCID })))
+      fake = sinon.fake.returns(new Promise(r => r({ data: TEST_CID })))
       sinon.replace(axios, 'post', fake)
-      cid = await fission.add(strContent)
-      await add(strContent, auth)
+      cid = await fission.add(STRING_CONTENT)
+      await add(STRING_CONTENT, TEST_AUTH)
     })
 
     it('returns valid CID', () => {
-      expect(cid).toEqual(testCID)
+      expect(cid).toEqual(TEST_CID)
     })
 
     it('sends one POST request per call', () => {
@@ -151,11 +176,11 @@ describe('FissionUser', () => {
     })
 
     it('sends request with a properly formatted url', () => {
-      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs`)
+      expect(fake.args[0][0]).toEqual(`${BASE_URL}/ipfs`)
     })
 
     it('sends request with correct content to add', () => {
-      expect(fake.args[0][1]).toEqual(strContent)
+      expect(fake.args[0][1]).toEqual(STRING_CONTENT)
     })
 
     it('requests an octet-stream with basic auth', () => {
@@ -163,14 +188,11 @@ describe('FissionUser', () => {
         headers: {
           'content-type': 'application/octet-stream'
         },
-        auth: {
-          username,
-          password
-        }
+        auth: TEST_AUTH
       })
     })
 
-    it('defaults baseURL to https://runfission.com', () => {
+    it('defaults BASE_URL to https://runfission.com', () => {
       expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs`)
     })
   })
@@ -181,14 +203,14 @@ describe('FissionUser', () => {
     let name = 'json object'
 
     beforeAll(async () => {
-      fake = sinon.fake.returns(new Promise(r => r({ data: testCID })))
+      fake = sinon.fake.returns(new Promise(r => r({ data: TEST_CID })))
       sinon.replace(axios, 'post', fake)
-      cid = await fission.add(jsonContent, name)
-      await add(jsonContent, auth)
+      cid = await fission.add(JSON_CONTENT, name)
+      await add(JSON_CONTENT, TEST_AUTH)
     })
 
     it('returns valid CID', () => {
-      expect(cid).toEqual(testCID)
+      expect(cid).toEqual(TEST_CID)
     })
 
     it('sends one POST request per call', () => {
@@ -196,11 +218,11 @@ describe('FissionUser', () => {
     })
 
     it('sends request with a properly formatted url', () => {
-      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs?name=json object`)
+      expect(fake.args[0][0]).toEqual(`${BASE_URL}/ipfs?name=json object`)
     })
 
     it('sends request with correct content to add', () => {
-      expect(fake.args[0][1]).toEqual(jsonContent)
+      expect(fake.args[0][1]).toEqual(JSON_CONTENT)
     })
 
     it('requests an octet-stream with basic auth', () => {
@@ -208,14 +230,11 @@ describe('FissionUser', () => {
         headers: {
           'content-type': 'application/octet-stream'
         },
-        auth: {
-          username,
-          password
-        }
+        auth: TEST_AUTH
       })
     })
 
-    it('defaults baseURL to https://runfission.com', () => {
+    it('defaults BASE_URL to https://runfission.com', () => {
       expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs`)
     })
   })
@@ -226,8 +245,8 @@ describe('FissionUser', () => {
     beforeAll(async () => {
       fake = sinon.fake.returns(new Promise(r => r({ data: {} })))
       sinon.replace(axios, 'put', fake)
-      await fission.pin(testCID)
-      await pin(testCID, auth)
+      await fission.pin(TEST_CID)
+      await pin(TEST_CID, TEST_AUTH)
     })
 
     it('sends one PUT request per call', () => {
@@ -235,11 +254,11 @@ describe('FissionUser', () => {
     })
 
     it('sends request with a properly formatted url', () => {
-      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/${testCID}`)
+      expect(fake.args[0][0]).toEqual(`${BASE_URL}/ipfs/${TEST_CID}`)
     })
 
-    it('defaults baseURL to https://runfission.com', () => {
-      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${testCID}`)
+    it('defaults BASE_URL to https://runfission.com', () => {
+      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${TEST_CID}`)
     })
   })
 
@@ -249,8 +268,8 @@ describe('FissionUser', () => {
     beforeAll(async () => {
       fake = sinon.fake.returns(new Promise(r => r({ data: {} })))
       sinon.replace(axios, 'delete', fake)
-      await fission.remove(testCID)
-      await remove(testCID, auth)
+      await fission.remove(TEST_CID)
+      await remove(TEST_CID, TEST_AUTH)
     })
 
     it('sends one DELETE request per call', () => {
@@ -258,11 +277,11 @@ describe('FissionUser', () => {
     })
 
     it('sends request with a properly formatted url', () => {
-      expect(fake.args[0][0]).toEqual(`${baseURL}/ipfs/${testCID}`)
+      expect(fake.args[0][0]).toEqual(`${BASE_URL}/ipfs/${TEST_CID}`)
     })
 
-    it('defaults baseURL to https://runfission.com', () => {
-      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${testCID}`)
+    it('defaults BASE_URL to https://runfission.com', () => {
+      expect(fake.args[1][0]).toEqual(`https://runfission.com/ipfs/${TEST_CID}`)
     })
   })
 })
