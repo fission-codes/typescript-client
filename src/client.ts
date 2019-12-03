@@ -19,7 +19,7 @@ import { BASE_URL_DEFAULT } from './constants'
  * Note: Typically you should use it's child class `FissionUser`
  *       which is accessable either directly or via `Fission.login`
  */
-export default class Fission {
+export class Fission {
   baseURL: string
 
   constructor(baseURL?: string) {

@@ -1,8 +1,6 @@
 import { Object as JSONObject } from 'json-typescript'
 
-import Fission, { FissionUser } from '../src/client'
-import { getGatewayURL } from '../src/util'
-import { Auth } from '../src/types'
+import Fission, { FissionUser, getGatewayURL, Auth } from '../src'
 import { BASE_URL_DEFAULT } from '../src/constants'
 import { describeRequest } from './util'
 
