@@ -13,7 +13,7 @@ import {
 } from './api'
 import { getGatewayURL } from './util'
 
-import { Content, CID, Auth, ResetPassword } from './types'
+import { Content, CID, Auth } from './types'
 
 export default class Fission {
   baseURL: string
@@ -72,7 +72,7 @@ export class FissionUser extends Fission {
     return updateDNS(cid, this.auth, this.baseURL)
   }
 
-  async resetPassword(newPassword: ResetPassword): Promise<ResetPassword> {
+  async resetPassword(newPassword: string): Promise<string> {
     return resetPassword(newPassword, this.auth, this.baseURL)
   }
 

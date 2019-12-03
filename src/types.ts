@@ -5,10 +5,6 @@ export type Upload = JSONValue | File
 export type CID = string
 export type Peer = string
 
-export type ResetPassword = {
-  password: string
-}
-
 export type Auth = {
   username: string
   password: string

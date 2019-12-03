@@ -127,7 +127,7 @@ describe('FissionUser', () => {
     desc: 'Reset Passowrd',
     method: 'put',
     responseData: { data: { password: 'newPassword' } },
-    requestFn: () => fission.resetPassword({ password: 'newPassword' }),
+    requestFn: () => fission.resetPassword('newPassword'),
     expectedReturn: { password: 'newPassword' },
     expectedUrl: `${TEST_BASE_URL}/user/reset_password`,
     expectedArguments: [{ password: 'newPassword' }, { auth: TEST_AUTH }]

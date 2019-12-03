@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { BASE_URL_DEFAULT } from '../constants'
-import { Auth, Content, ResetPassword } from '../types'
+import { Auth, Content } from '../types'
 
 export const register = async (content: Auth, baseURL = BASE_URL_DEFAULT): Promise<Content> => {
   const { data } = await axios.post<Content>(`${baseURL}/user`, content)
@@ -8,11 +8,12 @@ export const register = async (content: Auth, baseURL = BASE_URL_DEFAULT): Promi
 }
 
 export const resetPassword = async (
-  content: ResetPassword,
+  newPassword: string,
   auth: Auth,
   baseURL = BASE_URL_DEFAULT
-): Promise<ResetPassword> => {
-  const { data } = await axios.put<ResetPassword>(`${baseURL}/user/reset_password`, content, {
+): Promise<string> => {
+  const body = { password: newPassword }
+  const { data } = await axios.put<string>(`${baseURL}/user/reset_password`, body, {
     auth
   })
   return data
