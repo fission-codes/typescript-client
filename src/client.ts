@@ -1,4 +1,3 @@
-import { BASE_URL_DEFAULT } from './constants'
 import {
   register,
   content,
@@ -12,9 +11,14 @@ import {
   verify
 } from './api'
 import { getGatewayURL } from './util'
-
 import { Content, CID, Auth } from './types'
+import { BASE_URL_DEFAULT } from './constants'
 
+/**
+ * A Base Class to hold all public api calls.
+ * Note: Typically you should use it's child class `FissionUser`
+ *       which is accessable either directly or via `Fission.login`
+ */
 export default class Fission {
   baseURL: string
 
@@ -43,6 +47,9 @@ export default class Fission {
   }
 }
 
+/**
+ * A client for interacting with the Fission API as a registered user.
+ */
 export class FissionUser extends Fission {
   auth: Auth
 
