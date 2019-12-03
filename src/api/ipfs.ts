@@ -47,8 +47,6 @@ export const updateDNS = async (
   auth: Auth,
   baseURL = BASE_URL_DEFAULT
 ): Promise<Content> => {
-  const {
-    data: { getDomainName }
-  } = await axios.put(`${baseURL}/dns/${cid}`, { auth })
-  return getDomainName
+  const { data } = await axios.put(`${baseURL}/dns/${cid}`, {}, { auth })
+  return data
 }

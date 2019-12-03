@@ -202,10 +202,10 @@ describe('FissionUser', () => {
   describeRequest({
     desc: 'Update DNS',
     method: 'put',
-    responseData: { data: { getDomainName: 'appsubdomain.runfission.com' } },
+    responseData: { data: 'appsubdomain.runfission.com' },
     requestFn: () => fission.updateDNS(TEST_CID),
     expectedReturn: 'appsubdomain.runfission.com',
     expectedUrl: `${TEST_BASE_URL}/dns/${TEST_CID}`,
-    expectedArguments: [{ auth: TEST_AUTH }]
+    expectedArguments: [{}, { auth: TEST_AUTH }]
   })
 })
