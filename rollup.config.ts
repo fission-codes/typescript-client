@@ -9,8 +9,8 @@ import typescript from 'rollup-plugin-typescript2'
 // Require understands JSON files.
 const pkg = require('./package.json')
 
-const input = 'src/client.ts'
-const name = 'client'
+const input = 'src/index.ts'
+const name = 'index'
 
 const replaceMinJsExtension = filename => filename.replace('.min.js', '.js')
 
