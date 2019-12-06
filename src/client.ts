@@ -10,7 +10,7 @@ import {
   resetPassword,
   verify
 } from './api'
-import { getGatewayURL } from './util'
+import { getContentURL } from './util'
 import { Content, CID, Auth } from './types'
 import { BASE_URL_DEFAULT } from './constants'
 
@@ -42,8 +42,8 @@ export class Fission {
     return peers(this.baseURL)
   }
 
-  getGatewayURL(cid: CID): string {
-    return getGatewayURL(cid, this.baseURL)
+  getContentURL(cid: CID): string {
+    return getContentURL(cid, this.baseURL)
   }
 }
 

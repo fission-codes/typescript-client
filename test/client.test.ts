@@ -1,6 +1,6 @@
 import { Object as JSONObject } from 'json-typescript'
 
-import Fission, { FissionUser, getGatewayURL, Auth } from '../src'
+import Fission, { FissionUser, getContentURL, Auth } from '../src'
 import { BASE_URL_DEFAULT } from '../src/constants'
 import { describeRequest } from './util'
 
@@ -47,13 +47,13 @@ describe('Fission', () => {
     expect(fissionUser).toBeInstanceOf(FissionUser)
   })
 
-  it('gives properly formatted urls for IPFS content', () => {
-    const url = fission.getGatewayURL(TEST_CID)
+  it('gives properly formatted urls for IPFS cids', () => {
+    const url = fission.getContentURL(TEST_CID)
     expect(url).toEqual(`${TEST_BASE_URL}/ipfs/${TEST_CID}`)
   })
 
   it('defaults BASE_URL_DEFAULT when formatting url', () => {
-    const contentURL = getGatewayURL(TEST_CID)
+    const contentURL = getContentURL(TEST_CID)
     expect(contentURL).toEqual(`${BASE_URL_DEFAULT}/ipfs/${TEST_CID}`)
   })
 

@@ -20,9 +20,9 @@ $ npm install --save @fission-suite/client
 
 ### Utility
 
-`getGatewayURL`
+`getContentURL`
 
-Returns a formatted gateway url for a given CID.
+Returns the url to access the given CID on our service.
 
 Params:
 - cid: CID (string) **required**
@@ -30,8 +30,8 @@ Params:
 
 Example:
 ```js
-import { getGatewayURL } from '@fission-suite/client'
-const formattedURL = getGatewayURL("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
+import { getContentURL } from '@fission-suite/client'
+const formattedURL = getContentURL("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
 // "https://runfission.com/ipfs/QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u"
 ```
 
