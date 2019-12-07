@@ -18,7 +18,53 @@ $ npm install --save @fission-suite/client
 
 ## API
 
+### Utility
+
+`getContentURL`
+
+Returns the url to access the given CID on our service.
+
+Params:
+- cid: CID (string) **required**
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
+
+Example:
+```js
+import { getContentURL } from '@fission-suite/client'
+const formattedURL = getContentURL("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
+// "https://runfission.com/ipfs/QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u"
+```
+
 ### Unauthenticated
+
+`register`
+
+Registers a user for the Fission service.
+
+Params:
+- username: string **required**
+- password: string **required**
+- email: string
+
+Example:
+```js
+import { register } from '@fission-suite/client'
+await register("username", "password", "email@email.com")
+```
+
+`peers`
+
+Gets the address for all IPFS nodes in the Fission Network.
+
+Example:
+```js
+import { peers } from '@fission-suite/client'
+await peers()
+// [
+//   '/ip4/3.215.160.238/tcp/4001/ipfs/QmVLEz2SxoNiFnuyLpbXsH6SvjPTrHNMU88vCQZyhgBzgw',
+//   '/ip4/184.68.124.102/tcp/64417/ipfs/QmQ2Jo91xQyVjhw1kmpk9eeHj6A4W1u5BYdh5xjfC5h11g'
+// ]
+```
 
 `content`
 
@@ -26,30 +72,47 @@ Returns content at given CID.
 
 Params:
 - cid: CID (string) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 
 Example:
-```
+```js
 import { content } from '@fission-suite/client'
 const helloWorld = await content("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
-```
-
-`url`
-
-Returns a formatted url for a given CID.
-
-Params:
-- cid: CID (string) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
-
-Example:
-```
-import { url } from '@fission-suite/client'
-const formattedURL = url("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u")
+// "Hello World"
 ```
 
 ### Authenticated
-*These methods require a username/password from the fission webserver. These can be provisioned by the [Heroku addon](https://elements.heroku.com/addons/interplanetary-fission).*
+*These methods require a username/password from the fission webserver. These can be provisioned through our [Fission CLI](https://github.com/fission-suite/cli).*
+
+`verify`
+
+Verifies the given credentialls.
+
+Params:
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
+
+Example:
+```js
+import { verify } from '@fission-suite/client'
+await verify({ username: "username", password: "password" })
+// true
+```
+
+`resetPassword`
+
+Verifies the given credentialls.
+
+Params:
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
+
+Example:
+```js
+import { resetPassword } from '@fission-suite/client'
+await resetPassword("newPassword", { username: "username", password: "password" })
+// "newPassword"
+```
 
 `add`
 
@@ -58,11 +121,11 @@ Adds content to IPFS and returns the CID of that content.
 Params:
 - content: Content (json, string, file-stream) **required**
 - auth: Auth ({username: string, password: string}) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 - name: string *optional name for your file, defaults to `undefined`*
 
 Example:
-```
+```js
 import { add } from '@fission-suite/client'
 const auth = { username: "username", password: "password" }
 const content = {
@@ -70,6 +133,7 @@ const content = {
   key2: 456
 }
 const cid = await add(content, auth)
+// "QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u"
 ```
 
 `remove`
@@ -79,13 +143,14 @@ Unpins content from Fission server and disassociates CID with user account.
 Params:
 - cid: CID (string) **required**
 - auth: Auth ({username: string, password: string}) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 
 Example:
-```
+```js
 import { remove } from '@fission-suite/client'
 const auth = { username: "username", password: "password" }
 await remove("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u", auth)
+// undefined
 ```
 
 `pin`
@@ -95,19 +160,56 @@ Pins content to Fission server.
 Params:
 - cid: CID (string) **required**
 - auth: Auth ({username: string, password: string}) **required**
-- baseURL: string *defaults to fission web-api at `https://hostless.dev`*
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
 
 Example:
-```
+```js
 import { pin } from '@fission-suite/client'
 const auth = { username: "username", password: "password" }
 await pin("QmWATWQ7fVPP2EFGu71UkfnqhYXDYH566qy47CnJDgvs8u", auth)
+// undefined
+```
+
+`cids`
+
+Gets all CIDs associated with the given user.
+
+Params:
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
+
+Example:
+```js
+import { cids } from '@fission-suite/client'
+const auth = { username: "username", password: "password" }
+await cids(auth)
+// [
+//   "QmYwXpFw1QGAWxEnQWFwLuVpdbupaBcEz2DTTRRRsCt9WR",
+//   "QmYp9d8BC2HhDCUVH7JEUZAd6Hbxrc5wBRfUs8TqazJJP9",
+// ]
+```
+
+`updateDNS`
+
+Updates the users associated subdomain to point at the given CID
+
+Params:
+- cid: CID (string) **required**
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
+
+Example:
+```js
+import { updateDNS } from '@fission-suite/client'
+const auth = { username: "username", password: "password" }
+await updateDNS("QmYwXpFw1QGAWxEnQWFwLuVpdbupaBcEz2DTTRRRsCt9WR", auth)
+// "username.runfission.com"
 ```
 
 ### Fission objects
 
 For repeated calls, instantiate a fission object:
-```
+```js
 import Fission, { FissionUser } from '@fission-suite/client'
 
 const fission = new Fission("https://someurl.com")
