@@ -4,6 +4,7 @@ export type Content = JSONValue
 export type Upload = JSONValue | File
 export type CID = string
 export type Peer = string
+export type ByteLength = number
 
 export type Auth = {
   username: string
