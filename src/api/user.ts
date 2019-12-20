@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { BASE_URL_DEFAULT } from '../constants'
-import { Auth, Content } from '../types'
+import { Auth, Content, Register } from '../types'
 
-export const register = async (content: Auth, baseURL = BASE_URL_DEFAULT): Promise<Content> => {
+export const register = async (content: Register, baseURL = BASE_URL_DEFAULT): Promise<Content> => {
   const { data } = await axios.post<Content>(`${baseURL}/user`, content)
   return data
 }

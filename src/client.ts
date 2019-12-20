@@ -30,7 +30,7 @@ export class Fission {
     return new FissionUser(username, password, this.baseURL)
   }
 
-  register(username: string, password: string, email?: string): Promise<Content> {
+  register(username: string, password: string, email: string): Promise<Content> {
     return register({ username, password, email }, this.baseURL)
   }
 
