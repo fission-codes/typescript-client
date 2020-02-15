@@ -62,6 +62,16 @@ describe('Fission', () => {
     expect(fissionDefault.baseURL).toEqual(BASE_URL_DEFAULT)
   })
 
+  test.each([
+    ['trailing slash', 'https://example.com/'],
+    ['missing protocol', 'example.com'],
+    ['root path', '/path/from/localhost'],
+    ['query params', 'https://example.com?param=true'],
+    ['malformed', 'https://badexample.c']
+  ])('throws error when base URL has problem: %s', (desc, path) => {
+    expect(() => new Fission(path)).toThrowError()
+  })
+
   describeRequest({
     desc: 'Register User',
     method: 'post',
