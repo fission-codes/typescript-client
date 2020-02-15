@@ -10,7 +10,7 @@ import {
   resetPassword,
   verify
 } from './api'
-import { getContentURL } from './util'
+import { getContentURL, validateBaseURL } from './util'
 import { Content, CID, Auth } from './types'
 import { BASE_URL_DEFAULT } from './constants'
 
@@ -23,7 +23,7 @@ export class Fission {
   baseURL: string
 
   constructor(baseURL?: string) {
-    this.baseURL = baseURL || BASE_URL_DEFAULT
+    this.baseURL = baseURL ? validateBaseURL(baseURL) : BASE_URL_DEFAULT
   }
 
   login(username: string, password: string): FissionUser {
