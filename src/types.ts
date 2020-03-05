@@ -9,5 +9,10 @@ export type ByteLength = number
 export type Auth = {
   username: string
   password: string
-  email?: string
+}
+
+export type Register = {
+  username: string
+  password: string
+  email: string
 }

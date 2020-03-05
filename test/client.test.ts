@@ -62,6 +62,11 @@ describe('Fission', () => {
     expect(fissionDefault.baseURL).toEqual(BASE_URL_DEFAULT)
   })
 
+  it("removes trailing slashes on provided BASE_URL", () => {
+    const trailingFission = new Fission("https://example.com/")
+    expect(trailingFission.baseURL).toEqual("https://example.com")
+  })
+
   describeRequest({
     desc: 'Register User',
     method: 'post',
