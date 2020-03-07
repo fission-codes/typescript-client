@@ -1,7 +1,7 @@
 import { Object as JSONObject } from 'json-typescript'
 
 import Fission, { FissionUser, getContentURL, Auth } from '../src'
-import { BASE_URL_DEFAULT } from '../src/constants'
+import { BASE_URL_DEFAULT, MAX_CONTENT_LENGTH } from '../src/constants'
 import { describeRequest } from './util'
 
 // NOTE: We must import sinon in this manner: https://github.com/sinonjs/sinon/issues/1711
@@ -159,6 +159,7 @@ describe('FissionUser', () => {
         headers: {
           'content-type': 'application/octet-stream'
         },
+        maxContentLength: MAX_CONTENT_LENGTH,
         auth: TEST_AUTH
       }
     ]
@@ -177,6 +178,7 @@ describe('FissionUser', () => {
         headers: {
           'content-type': 'application/octet-stream'
         },
+        maxContentLength: MAX_CONTENT_LENGTH,
         auth: TEST_AUTH
       }
     ]

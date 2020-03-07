@@ -1,7 +1,7 @@
 /* TYPES */
 import axios from 'axios'
-import { BASE_URL_DEFAULT } from '../constants'
-import { Auth, Content, CID, Peer } from '../types'
+import { BASE_URL_DEFAULT, MAX_CONTENT_LENGTH } from '../constants'
+import { Auth, Content, CID, Peer, ByteLength } from '../types'
 
 export const content = async (cid: CID, baseURL = BASE_URL_DEFAULT): Promise<Content> => {
   const headers = { 'content-type': 'application/octet-stream' }
@@ -22,10 +22,13 @@ export const add = async (
 ): Promise<CID> => {
   const headers = { 'content-type': 'application/octet-stream' }
   const nameStr = name ? `?name=${name}` : ''
-  const { data } = await axios.post<CID>(`${baseURL}/ipfs${nameStr}`, content, {
+  const maxContentLength: ByteLength = MAX_CONTENT_LENGTH
+  const axiosOptions = {
     headers,
+    maxContentLength,
     auth
-  })
+  }
+  const { data } = await axios.post<CID>(`${baseURL}/ipfs${nameStr}`, content, axiosOptions)
   return data
 }
 
