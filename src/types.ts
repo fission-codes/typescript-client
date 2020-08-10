@@ -16,3 +16,8 @@ export type Register = {
   password: string
   email: string
 }
+
+export type Apps = {
+  property1: string[]
+  property2: string[]
+}

@@ -62,9 +62,9 @@ describe('Fission', () => {
     expect(fissionDefault.baseURL).toEqual(BASE_URL_DEFAULT)
   })
 
-  it("removes trailing slashes on provided BASE_URL", () => {
-    const trailingFission = new Fission("https://example.com/")
-    expect(trailingFission.baseURL).toEqual("https://example.com")
+  it('removes trailing slashes on provided BASE_URL', () => {
+    const trailingFission = new Fission('https://example.com/')
+    expect(trailingFission.baseURL).toEqual('https://example.com')
   })
 
   describeRequest({
@@ -211,6 +211,26 @@ describe('FissionUser', () => {
     requestFn: () => fission.updateDNS(TEST_CID),
     expectedReturn: 'appsubdomain.runfission.com',
     expectedUrl: `${TEST_BASE_URL}/dns/${TEST_CID}`,
+    expectedArguments: [{}, { auth: TEST_AUTH }]
+  })
+
+  describeRequest({
+    desc: 'List all apps & their associated domains',
+    method: 'get',
+    responseData: { data: { property1: 'foo.example.com', property2: 'foo.example.com' } },
+    requestFn: () => fission.listApps(),
+    expectedReturn: { property1: 'foo.example.com', property2: 'foo.example.com' },
+    expectedUrl: `${TEST_BASE_URL}/app`,
+    expectedArguments: [{ auth: TEST_AUTH }]
+  })
+
+  describeRequest({
+    desc: 'Create fission app',
+    method: 'post',
+    responseData: { data: 'test.runfission.com' },
+    requestFn: () => fission.createApp('test'),
+    expectedReturn: 'test.runfission.com',
+    expectedUrl: `${TEST_BASE_URL}/create?subdomain=test`,
     expectedArguments: [{}, { auth: TEST_AUTH }]
   })
 })
