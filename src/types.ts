@@ -18,6 +18,5 @@ export type Register = {
 }
 
 export type Apps = {
-  property1: string[]
-  property2: string[]
+  [property: string]: string
 }
