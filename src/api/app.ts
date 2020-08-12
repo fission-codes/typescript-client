@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { BASE_URL_DEFAULT } from '../constants'
-import { Auth, Apps } from '../types'
+import { Auth, App } from '../types'
 
 export const listApps = async (auth: Auth, baseURL = BASE_URL_DEFAULT) => {
-  const { data } = await axios.get<Apps>(`${baseURL}/app`, { auth })
+  const { data } = await axios.get<Array<App>>(`${baseURL}/app`, { auth })
   return data
 }
 
