@@ -1,6 +1,7 @@
-![](https://github.com/fission-suite/web-api/raw/master/assets/logo.png?sanitize=true)
 
-# FISSION IPFS Web API
+**The [webnative SDK](https://github.com/fission-suite/webnative) replaces this platform / REST API**
+
+---
 
 [![NPM](https://img.shields.io/npm/v/@fission-suite/client)](https://www.npmjs.com/package/@fission-suite/client)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/fission-suite/blob/master/LICENSE)
