@@ -207,6 +207,38 @@ await updateDNS("QmYwXpFw1QGAWxEnQWFwLuVpdbupaBcEz2DTTRRRsCt9WR", auth)
 // "username.runfission.com"
 ```
 
+`createApp`
+
+Creates a new app, assigns an initial subdomain, and sets an asset placeholder
+
+Params:
+- subdomain: (string) **required**
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
+Example:
+```js
+import { createApp } from '@fission-suite/client'
+const auth = { username: "username", password: "password" }
+await createApp("foo", auth)
+// "foo.fission.app"
+```
+
+`listApps`
+
+A list of all of your apps and their associated domain names
+
+Params:
+- auth: Auth ({username: string, password: string}) **required**
+- baseURL: string *defaults to fission web-api at `https://runfission.com`*
+Example:
+```js
+import { listApps } from '@fission-suite/client'
+const auth = { username: "username", password: "password" }
+await listApps(auth)
+// { "key": "foo.fission.app", "key2": "foo-two.fission.app"  }
+```
+
+
 ### Fission objects
 
 For repeated calls, instantiate a fission object:

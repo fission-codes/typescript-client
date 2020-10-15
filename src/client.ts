@@ -8,10 +8,12 @@ import {
   pin,
   updateDNS,
   resetPassword,
-  verify
+  verify,
+  createApp,
+  listApps
 } from './api'
 import { getContentURL, trimBaseURL } from './util'
-import { Content, CID, Auth } from './types'
+import { Content, CID, Auth, App } from './types'
 import { BASE_URL_DEFAULT } from './constants'
 
 /**
@@ -85,5 +87,12 @@ export class FissionUser extends Fission {
 
   async verify(): Promise<Boolean> {
     return verify(this.auth, this.baseURL)
+  }
+
+  async listApps(): Promise<Array<App>> {
+    return listApps(this.auth, this.baseURL)
+  }
+  async createApp(subDomain: string): Promise<string> {
+    return createApp(subDomain, this.auth, this.baseURL)
   }
 }
